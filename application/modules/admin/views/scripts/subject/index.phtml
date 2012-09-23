@@ -1,0 +1,18 @@
+
+hello world
+
+<table align="right" width="100%" border="1px solid black">
+    <tr>
+        <th> Subject ID        </th>
+        <th> Class      </th>
+        <th> Name            </th>                
+    </tr>
+    <?php foreach ($this->result as $result): ?>
+
+        <tr>
+            <td><?php echo $result['subject_id']; ?></td>
+            <td><?php echo $result['class']; ?></td>
+            <td><?php echo $result['name']; ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>

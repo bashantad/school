@@ -1,0 +1,21 @@
+<table align="right" width="100%" border="1px solid black">
+    <tr>
+        <th> Result ID        </th>
+        <th> Student ID     </th>
+        <th> Class        </th>
+        <th> Percent </th>
+        <th> Exam Type </th>
+        <th> Remarks </th>
+    </tr>
+    <?php foreach ($this->result as $result): ?>
+
+        <tr>
+            <td><?php echo $result['result_id']; ?></td>
+            <td><?php echo $result['result_student']; ?></td>
+            <td><?php echo $result['class']; ?></td>
+            <td><?php echo $result['percent']; ?></td>
+            <td><?php echo $result['exam_type']; ?></td>
+            <td><?php echo $result['remarks']; ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
