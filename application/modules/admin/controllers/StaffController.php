@@ -18,9 +18,10 @@ class Admin_StaffController extends Zend_Controller_Action {
                 try {
                     $staffModel = new Admin_Model_Staff();
                     $staffModel->add($formData);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Staff added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
-                    $this->view->message = $e->getMessage();
+                    $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
                 }
             }
         }
@@ -44,11 +45,12 @@ class Admin_StaffController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $staffModel->update($formData, $id);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Staff edited"));
                     $this->_helper->redirector('index');
                 }
             }
         } catch (Exception $e) {
-            $this->view->message = $e->getMessage();
+            $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
         }
     }
 

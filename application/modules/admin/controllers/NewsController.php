@@ -18,9 +18,10 @@ class Admin_NewsController extends Zend_Controller_Action {
                 try {
                     $newsModel = new Admin_Model_News();
                     $newsModel->add($formData);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully News added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
-                    $this->view->message = $e->getMessage();
+                   $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
                 }
             }
         }
@@ -44,11 +45,12 @@ class Admin_NewsController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $newsModel->update($formData, $id);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully News edited"));
                     $this->_helper->redirector('index');
                 }
             }
         } catch (Exception $e) {
-            $this->view->message = $e->getMessage();
+            $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
         }
     }
 

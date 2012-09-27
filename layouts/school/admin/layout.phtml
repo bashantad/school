@@ -24,12 +24,19 @@
                     <li><a href="<?php echo $this->baseUrl() . '/admin/gallery/list'; ?>">Gallery</a></li>
                     <?php if (Zend_Auth::getInstance()->hasIdentity()) { ?>
                         <li><a href="<?php echo $this->baseUrl() . '/admin/index/logout'; ?>">Logout</a></li>
-<?php } ?>
+                    <?php } ?>
                 </ul>
 
             </div>
+            <div class="flash-messages">
+                <?php
+                $flashMessenger = $this->flashMessages();
+                print $flashMessenger->getMessages();
+                ?>
+            </div>
+
             <div id="application-content">
-<?php echo $this->layout()->content; ?>
+                <?php echo $this->layout()->content; ?>
             </div>
         </div>
     </body>

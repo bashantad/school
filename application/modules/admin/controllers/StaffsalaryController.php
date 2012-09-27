@@ -1,9 +1,8 @@
 <?php
 
-class Admin_StaffsalaryController extends Zend_Controller_Action
-{
+class Admin_StaffsalaryController extends Zend_Controller_Action {
 
-     public function indexAction() {
+    public function indexAction() {
         $salaryModel = new Admin_Model_Staffsalary();
         $this->view->result = $salaryModel->getAll();
     }
@@ -19,14 +18,15 @@ class Admin_StaffsalaryController extends Zend_Controller_Action
                 try {
                     $salaryModel = new Admin_Model_Staffsalary();
                     $salaryModel->add($formData);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Salary added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
-                    $this->view->message = $e->getMessage();
+                    $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
                 }
             }
         }
     }
-    
+
     public function editAction() {
 
         $form = new Admin_Form_StaffsalaryForm();
@@ -45,11 +45,12 @@ class Admin_StaffsalaryController extends Zend_Controller_Action
                     unset($formData['submit']);
 
                     $salaryModel->update($formData, $id);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Salary edited"));
                     $this->_helper->redirector('index');
                 }
             }
         } catch (Exception $e) {
-            $this->view->message = $e->getMessage();
+            $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
         }
     }
 

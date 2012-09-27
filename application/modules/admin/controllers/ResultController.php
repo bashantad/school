@@ -22,9 +22,10 @@ class Admin_ResultController extends Zend_Controller_Action {
                 try {
                     $resultModel = new Admin_Model_Result();
                     $resultModel->add($formData);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Result added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
-                    $this->view->message = $e->getMessage();
+                    $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
                 }
             }
         }
@@ -49,11 +50,12 @@ class Admin_ResultController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $resultModel->update($formData, $id);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Result edited"));
                     $this->_helper->redirector('index');
                 }
             }
         } catch (Exception $e) {
-            $this->view->message = $e->getMessage();
+            $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
         }
     }
 

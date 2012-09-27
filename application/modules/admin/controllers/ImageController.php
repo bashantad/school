@@ -22,15 +22,16 @@ class Admin_ImageController extends Zend_Controller_Action {
                 try {
                     $imageModel = new Admin_Model_Image();
                     $imageModel->add($formData);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Image added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
-                    $this->view->message = $e->getMessage();
+                    $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
                 }
             }
         }
     }
-    
-        public function editAction() {
+
+    public function editAction() {
 
         $form = new Admin_Form_ImageForm();
         $form->submit->setLabel("Save");
@@ -48,11 +49,12 @@ class Admin_ImageController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $imageModel->update($formData, $id);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Image edited"));
                     $this->_helper->redirector('index');
                 }
             }
         } catch (Exception $e) {
-            $this->view->message = $e->getMessage();
+            $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
         }
     }
 
@@ -76,8 +78,6 @@ class Admin_ImageController extends Zend_Controller_Action {
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "grid.ini", 'production');
         $grid = Bvb_Grid::factory('Table', $config);
         $data = $this->_listdata();
-        // echo "<pre>";
-        //print_r($data);exit;
         $source = new Bvb_Grid_Source_Array($data);
         $grid->setSource($source);
         $grid->setImagesUrl('/grid/');

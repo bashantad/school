@@ -22,9 +22,10 @@ class Admin_GalleryController extends Zend_Controller_Action {
                 try {
                     $galleryModel = new Admin_Model_Gallery();
                     $galleryModel->add($formData);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Gallery added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
-                    $this->view->message = $e->getMessage();
+                    $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
                 }
             }
         }
@@ -48,11 +49,12 @@ class Admin_GalleryController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $galleryModel->update($formData, $id);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Gallery edited"));
                     $this->_helper->redirector('index');
                 }
             }
         } catch (Exception $e) {
-            $this->view->message = $e->getMessage();
+            $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
         }
     }
 
@@ -76,13 +78,11 @@ class Admin_GalleryController extends Zend_Controller_Action {
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "grid.ini", 'production');
         $grid = Bvb_Grid::factory('Table', $config);
         $data = $this->_listdata();
-        // echo "<pre>";
-        //print_r($data);exit;
         $source = new Bvb_Grid_Source_Array($data);
         $grid->setSource($source);
-        $grid->setImagesUrl('/grid/');
-        $editColumn = new Bvb_Grid_Extra_Column();
         $baseUrl = Zend_Controller_Front::getInstance()->getBaseUrl();
+        $grid->setImagesUrl("$baseUrl/grid/");
+        $editColumn = new Bvb_Grid_Extra_Column();
         $editColumn->setPosition('right')->setName('Edit')->setDecorator("<a href=\"$baseUrl/admin/gallery/edit/id/{{gallery_id}}\">Edit</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{gallery_id}}\"/>");
         $deleteColumn = new Bvb_Grid_Extra_Column();
         $deleteColumn->setPosition('right')->setName('Delete')->setDecorator("<a class=\"delete-data\" href=\"$baseUrl/admin/gallery/delete/id/{{gallery_id}}\">Delete</a>");
