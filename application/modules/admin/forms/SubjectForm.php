@@ -6,8 +6,8 @@ class Admin_Form_SubjectForm extends Zend_Form {
 
         $subjectID = new Zend_Form_Element_Hidden("subject_id");
 
-        $class = new Zend_Form_Element_Text("class");
-        $class->setLabel("Class")
+        $grade = new Zend_Form_Element_Text("grade");
+        $grade->setLabel("Grade")
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'))
                 ->setRequired(true);
 
@@ -21,7 +21,7 @@ class Admin_Form_SubjectForm extends Zend_Form {
 
         $this->addElements(array(
             $subjectID,
-            $class,
+            $grade,
             $name,
             $submit));
     }

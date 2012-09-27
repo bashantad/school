@@ -6,6 +6,9 @@
         <th> Percent </th>
         <th> Exam Type </th>
         <th> Remarks </th>
+        <th> Detail </th>
+        <th> Edit </th>
+        <th> Delete </th>
     </tr>
     <?php foreach ($this->result as $result): ?>
 
@@ -16,6 +19,15 @@
             <td><?php echo $result['percent']; ?></td>
             <td><?php echo $result['exam_type']; ?></td>
             <td><?php echo $result['remarks']; ?></td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'result', 'action' => 'detail', 'id' => $result['result_id'])); ?>">Detail </a>
+            </td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'result', 'action' => 'edit', 'id' => $result['result_id'])); ?>">Edit </a>
+            </td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'result', 'action' => 'delete', 'id' => $result['result_id'])); ?>">Delete</a>
+            </td>
         </tr>
     <?php endforeach; ?>
 </table>

@@ -1,4 +1,28 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Studentfee</b> and script/action name <b>index</b></p>
-</div>
+
+<table align="right" width="100%" border="1px solid black">
+    <tr>
+        <th> Fee ID       </th>
+        <th> Student ID    </th>
+        <th> Fee Title           </th> 
+        <th> Amount </th>
+        <th> Due </th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <?php foreach ($this->result as $result): ?>
+
+        <tr>
+            <td><?php echo $result['fee_id']; ?></td>
+            <td><?php echo $result['student_name']; ?></td>
+            <td><?php echo $result['fee_title']; ?></td>
+            <td><?php echo $result['amount']; ?></td>
+            <td><?php echo $result['due']; ?></td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'studentfee', 'action' => 'edit', 'id' => $result['fee_id'])); ?>">Edit </a>
+            </td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'studentfee', 'action' => 'delete', 'id' => $result['fee_id'])); ?>">Delete</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

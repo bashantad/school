@@ -6,8 +6,11 @@
         <th> Email </th>
         <th> Phone </th>
         <th> Guardian Name </th>
+        <th> Year </th>
         <th> Class </th>
         <th> Section </th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
     <?php foreach ($this->result as $result): ?>
 
@@ -18,8 +21,15 @@
             <td><?php echo $result['email']; ?></td>
             <td><?php echo $result['phone']; ?></td>
             <td><?php echo $result['guardian_name']; ?></td>
-            <td><?php echo $result['class']; ?></td>
+            <td><?php echo $result['year']; ?></td>
+            <td><?php echo $result['grade']; ?></td>
             <td><?php echo $result['section']; ?></td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'student', 'action' => 'edit', 'id' => $result['student_id'])); ?>">Edit </a>
+            </td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'student', 'action' => 'delete', 'id' => $result['student_id'])); ?>">Delete</a>
+            </td>
         </tr>
     <?php endforeach; ?>
 </table>

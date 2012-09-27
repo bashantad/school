@@ -1,4 +1,31 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Staff</b> and script/action name <b>index</b></p>
-</div>
+<table align="right" width="100%" border="1px solid black">
+    <tr>
+        <th> Staff ID        </th>
+        <th> Full Name     </th>
+        <th> Phone        </th>
+        <th> Address </th>
+        <th> Email </th>
+        <th> Position </th>
+        <th> Joined Date</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <?php foreach ($this->result as $result): ?>
+
+        <tr>
+            <td><?php echo $result['staff_id']; ?></td>
+            <td><?php echo $result['full_name']; ?></td>
+            <td><?php echo $result['phone']; ?></td>
+            <td><?php echo $result['address']; ?></td>
+            <td><?php echo $result['email']; ?></td>
+            <td><?php echo $result['position']; ?></td>
+            <td><?php echo $result['joined_date']; ?></td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'staff', 'action' => 'edit', 'id' => $result['staff_id'])); ?>">Edit </a>
+            </td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'staff', 'action' => 'delete', 'id' => $result['staff_id'])); ?>">Delete</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

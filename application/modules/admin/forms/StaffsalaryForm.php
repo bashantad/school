@@ -6,26 +6,34 @@ class Admin_Form_StaffsalaryForm extends Zend_Form {
 
         $salaryid = new Zend_Form_Element_Hidden("salary_id");
 
-        $monthlysalary = new Zend_Form_ELement_Text("monthly_salary");
-        $monthlysalary->setLabel("monthly_salary")
+        $staffmodel = new Admin_Model_Staff();
+        $option = $staffmodel->getKeysAndValues();
+       
+        $staff = new Zend_Form_Element_Select("staff_id");
+        $staff->setLabel("Staff")
+                ->addMultiOptions($option)
+                ->setAttribs(array('class' => 'form-select'));
+        $monthlysalary = new Zend_Form_Element_Text("monthly_salary");
+        $monthlysalary->setLabel("Monthly Salary")
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'))
                 ->setRequired(true);
 
-        $amount = new Zend_Form_ELement_Text("amount");
-        $amount->setLabel("amount")
+        $amount = new Zend_Form_Element_Text("amount");
+        $amount->setLabel("Amount")
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'))
                 ->setRequired(true);
 
-        $due = new Zend_Form_ELement_Text("due");
+        $due = new Zend_Form_Element_Text("due");
         $due->setLabel("Due")
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'))
                 ->setRequired(true);
         
-        $submit = new Zend_Form_ELement_Submit("submit");
+        $submit = new Zend_Form_Element_Submit("submit");
         $submit->setLabel("Submit");
 
         $this->addElements(array(
             $salaryid,
+            $staff,
             $monthlysalary,
             $amount,
             $due,

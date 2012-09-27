@@ -1,4 +1,22 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Gallery</b> and script/action name <b>index</b></p>
-</div>
+
+<table align="right" width="100%" border="1px solid black">
+    <tr>
+        <th> Gallery ID        </th>
+        <th> Gallery Name    </th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <?php foreach ($this->result as $result): ?>
+
+        <tr>
+            <td><?php echo $result['gallery_id']; ?></td>
+            <td><?php echo $result['gallery_name']; ?></td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'gallery', 'action' => 'edit', 'id' => $result['gallery_id'])); ?>">Edit </a>
+            </td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'gallery', 'action' => 'delete', 'id' => $result['gallery_id'])); ?>">Delete</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

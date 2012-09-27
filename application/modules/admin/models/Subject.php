@@ -23,18 +23,57 @@ class Admin_Model_Subject {
     }
 
     public function getAll() {
-        $results = $this->getDbTable()->fetchAll("del='N'");
-        return $results->toArray();
+        $result = $this->getDbTable()->fetchAll("del='N'");
+        return $result->toArray();
     }
 
-   public function add($formData) {
-        $formData['created_on'] = date("Y-m-d");
+    public function add($formData) {
         $lastId = $this->getDbTable()->insert($formData);
         var_dump($formData);
         if (!$lastId) {
             throw new Exception("Couldn't insert data into database");
         }
         return $lastId;
+    }
+    
+        public function getKeysAndValues() {
+        $result = $this->getDbTable()->fetchAll("del='N'");
+        $options = array('' => '--Select--');
+        foreach ($result as $result) {
+            $options[$result['subject_id']] = $result['name'];
+        }
+        return $options;
+    }
+
+     public function getDetailById($id) {
+        $row = $this->getDbTable()->fetchRow("subject_id='$id'");
+
+        if (!$row) {
+            throw new Exception("Couldn't fetch such data");
+        }
+        return $row->toArray();
+    }
+    
+    
+    public function update($formData, $id) {
+        $this->getDbTable()->update($formData, "subject_id='$id'");
+    }
+    
+    
+    public function delete($id) {
+        $data["del"] = "Y";
+        try {
+            $this->getDbTable()->update($data, "subject_id='$id'");
+        } catch (Exception $e) {
+            var_dump($e->getMessage());
+            exit;
+        }
+    }
+    
+    public function listAll()
+    {
+    	$result = $this->getDbTable()->fetchAll("del='N'");
+        return $result->toArray();
     }
 
 }
