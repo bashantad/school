@@ -1,0 +1,8 @@
+
+.permitted{
+    background: url("../images/tick-on-white.gif") no-repeat scroll 0 0 transparent;
+}
+
+.notpermitted {
+    background: url("../images/cross-on-white.gif") no-repeat scroll 0 0 transparent;
+}
