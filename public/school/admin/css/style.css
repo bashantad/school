@@ -50,3 +50,16 @@ th
     padding:10px;
     margin:4px;
 }
+#grid table td{
+    padding: 5px;
+}
+input[type="text"]:hover,input[type="select"]:hover{
+    border:2px solid #888;
+}
+input[type="text"]:active,input[type="select"]:active{
+    border:2px solid #888;
+    background: #F7DFE9;
+}
+.form-select{
+    width:220px;
+}

@@ -11,7 +11,7 @@ class Admin_StudentfeeController extends Zend_Controller_Action {
         $this->view->result = $studentfeeModel->getAll();
     }
 
-   public function addAction() {
+    public function addAction() {
         $form = new Admin_Form_StudentfeeForm();
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
@@ -22,15 +22,16 @@ class Admin_StudentfeeController extends Zend_Controller_Action {
                 try {
                     $studentfeeModel = new Admin_Model_Studentfee();
                     $studentfeeModel->add($formData);
+                    $this->_helper->FlashMessenger->addMessage(array("edit" => "Successfully Fee Added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
-                    $this->view->message = $e->getMessage();
+                    $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
                 }
             }
         }
     }
-    
-     public function editAction() {
+
+    public function editAction() {
 
         $form = new Admin_Form_StudentfeeForm();
         $form->submit->setLabel("Save");
@@ -48,11 +49,12 @@ class Admin_StudentfeeController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $studentfeeModel->update($formData, $id);
+                    $this->_helper->FlashMessenger->addMessage(array("edit" => "Successfully Fee Edited"));
                     $this->_helper->redirector('index');
                 }
             }
         } catch (Exception $e) {
-            $this->view->message = $e->getMessage();
+             $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
         }
     }
 

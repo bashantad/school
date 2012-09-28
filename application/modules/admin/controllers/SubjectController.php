@@ -22,9 +22,10 @@ class Admin_SubjectController extends Zend_Controller_Action {
                 try {
                     $subjectModel = new Admin_Model_Subject();
                     $subjectModel->add($formData);
+                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Subject added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
-                    $this->view->message = $e->getMessage();
+                    $this->_helper->FlashMessenger->addMessage(array("error"=>$e->getMessage()));
                 }
             }
         }
@@ -46,13 +47,13 @@ class Admin_SubjectController extends Zend_Controller_Action {
                     $id = $formData['subject_id'];
                     unset($formData['subject_id']);
                     unset($formData['submit']);
-
                     $subjectModel->update($formData, $id);
+                    $this->_helper->FlashMessenger->addMessage(array("edit"=>"Successfully Subject edited"));
                     $this->_helper->redirector('index');
                 }
             }
         } catch (Exception $e) {
-            $this->view->message = $e->getMessage();
+            $this->_helper->FlashMessenger->addMessage(array("error"=>$e->getMessage()));
         }
     }
 

@@ -3,7 +3,10 @@
 class Admin_Form_StudentForm extends Zend_Form {
 
     public function init() {
-
+       /* fetching grade options from class.ini file */
+        $config = new Zend_Config_Ini(BASE_PATH.DIRECTORY_SEPARATOR."configs".DIRECTORY_SEPARATOR."class.ini","production");
+        $gradeOptions = $config->grade->toArray();
+       
         $studentID = new Zend_Form_Element_Hidden("student_id");
 
         $rollno = new Zend_Form_Element_Text("roll_no");
@@ -36,9 +39,10 @@ class Admin_Form_StudentForm extends Zend_Form {
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'))
                 ->setRequired(true);
         
-        $grade = new Zend_Form_Element_Text("grade");
+        $grade = new Zend_Form_Element_Select("grade");
         $grade->setLabel("Grade")
-                ->setAttribs(array('size' => 30, 'class' => 'form-text'))
+                ->setAttribs(array('class' => 'form-select'))
+                ->addMultiOptions($gradeOptions)
                 ->setRequired(true);
 
         $section = new Zend_Form_Element_Text("section");
