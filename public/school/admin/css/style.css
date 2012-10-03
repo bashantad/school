@@ -63,3 +63,6 @@ input[type="text"]:active,input[type="select"]:active{
 .form-select{
     width:220px;
 }
+#filter_roll_no{
+    width:30px;
+}

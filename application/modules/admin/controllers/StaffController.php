@@ -2,6 +2,13 @@
 
 class Admin_StaffController extends Zend_Controller_Action {
 
+    public function init() {
+        /* Initialize action controller here */
+        if (!Zend_Auth::getInstance()->hasIdentity()) {
+            $this->_helper->redirector('index', 'login');
+        }
+    }
+
     public function indexAction() {
         $staffModel = new Admin_Model_Staff();
         $this->view->result = $staffModel->getAll();
@@ -18,7 +25,7 @@ class Admin_StaffController extends Zend_Controller_Action {
                 try {
                     $staffModel = new Admin_Model_Staff();
                     $staffModel->add($formData);
-                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Staff added"));
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Staff added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
                     $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
@@ -45,7 +52,7 @@ class Admin_StaffController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $staffModel->update($formData, $id);
-                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Staff edited"));
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Staff edited"));
                     $this->_helper->redirector('index');
                 }
             }
@@ -74,13 +81,11 @@ class Admin_StaffController extends Zend_Controller_Action {
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "grid.ini", 'production');
         $grid = Bvb_Grid::factory('Table', $config);
         $data = $this->_listdata();
-        // echo "<pre>";
-        //print_r($data);exit;
         $source = new Bvb_Grid_Source_Array($data);
-        $grid->setSource($source);
-        $grid->setImagesUrl('/grid/');
-        $editColumn = new Bvb_Grid_Extra_Column();
         $baseUrl = Zend_Controller_Front::getInstance()->getBaseUrl();
+        $grid->setSource($source);
+        $grid->setImagesUrl("$baseUrl/grid/");
+        $editColumn = new Bvb_Grid_Extra_Column();
         $editColumn->setPosition('right')->setName('Edit')->setDecorator("<a href=\"$baseUrl/admin/staff/edit/id/{{staff_id}}\">Edit</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{staff_id}}\"/>");
         $deleteColumn = new Bvb_Grid_Extra_Column();
         $deleteColumn->setPosition('right')->setName('Delete')->setDecorator("<a class=\"delete-data\" href=\"$baseUrl/admin/staff/delete/id/{{student_id}}\">Delete</a>");

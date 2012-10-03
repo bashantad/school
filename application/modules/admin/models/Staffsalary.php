@@ -64,6 +64,16 @@ class Admin_Model_Staffsalary {
         }
     }
 
+    public function listAll() {
+        $db = $this->getDbTable()->getDefaultAdapter();
+        $select = $db->select();
+        $select->from(array("ss" => "school_staff_salary"), array("ss.*"))
+                ->joinLeft(array("st" => "school_staff"), "st.staff_id=ss.staff_id", array("st.full_name as staff_name"))
+                ->where("ss.del='N'");
+        $results = $db->fetchAll($select);
+        return $results;
+    }
+
 }
 
 ?>

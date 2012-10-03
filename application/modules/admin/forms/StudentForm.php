@@ -3,10 +3,10 @@
 class Admin_Form_StudentForm extends Zend_Form {
 
     public function init() {
-       /* fetching grade options from class.ini file */
-        $config = new Zend_Config_Ini(BASE_PATH.DIRECTORY_SEPARATOR."configs".DIRECTORY_SEPARATOR."class.ini","production");
+        /* fetching grade options from class.ini file */
+        $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "class.ini", "production");
         $gradeOptions = $config->grade->toArray();
-       
+
         $studentID = new Zend_Form_Element_Hidden("student_id");
 
         $rollno = new Zend_Form_Element_Text("roll_no");
@@ -19,6 +19,21 @@ class Admin_Form_StudentForm extends Zend_Form {
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'))
                 ->setRequired(true);
 
+        $option = array (
+                     'Male' => 'Male',
+                     'Female' => 'Female',
+        );
+        
+        $sex = new Zend_Form_ELement_Select('sex');
+        $sex->setLabel("Sex")
+            ->addMultiOptions($option)
+            ->setAttribs(array('class' => 'form-select'))
+            ->setRequired(true);
+        
+        $dob = new Zend_Form_ELement_Text('dob');
+        $dob->setLabel('Date of Birth*')
+            ->setAttribs(array('class' => 'form-select'));
+        
         $email = new Zend_Form_Element_Text("email");
         $email->setLabel("Email")
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'))
@@ -38,7 +53,7 @@ class Admin_Form_StudentForm extends Zend_Form {
         $year->setLabel("Year")
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'))
                 ->setRequired(true);
-        
+
         $grade = new Zend_Form_Element_Select("grade");
         $grade->setLabel("Grade")
                 ->setAttribs(array('class' => 'form-select'))
@@ -57,13 +72,15 @@ class Admin_Form_StudentForm extends Zend_Form {
             $studentID,
             $rollno,
             $fullname,
+            $sex,
+            $dob,
             $email,
             $phone,
             $guardian,
             $year,
             $grade,
             $section,
-            $submit ));
+            $submit));
     }
 
 }
