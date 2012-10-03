@@ -45,22 +45,19 @@ class Admin_Model_Student {
         }
         return $options;
     }
-    
-    
-     public function getDetailById($id) {
+
+    public function getDetailById($id) {
         $row = $this->getDbTable()->fetchRow("student_id='$id'");
         if (!$row) {
             throw new Exception("Couldn't fetch such data");
         }
         return $row->toArray();
     }
-    
-    
+
     public function update($formData, $id) {
         $this->getDbTable()->update($formData, "student_id='$id'");
     }
-    
-    
+
     public function delete($id) {
         $data["del"] = "Y";
         try {
@@ -70,15 +67,28 @@ class Admin_Model_Student {
             exit;
         }
     }
-    
-    public function listAll()
-    {
-    	$result = $this->getDbTable()->fetchAll("del='N'");
+
+    public function listAll() {
+        $result = $this->getDbTable()->fetchAll("del='N'");
         return $result->toArray();
     }
-    
-    
-    
+
+    public function search($data) {
+        $where = "s.del='N' ";
+        if (is_array($data)) {
+            foreach ($data as $key => $val) {
+                if ($val) {
+                    $where .=" AND s.$key='$val'";
+                }
+            }
+        }
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("s" => "school_students"), array("s.*"))
+                ->where($where);
+        $results = $db->fetchAll($select);
+        return $results;
+    }
 
 }
 

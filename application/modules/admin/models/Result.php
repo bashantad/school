@@ -36,7 +36,7 @@ class Admin_Model_Result {
     public function add($formData) {
         $formData['entered_date'] = date("Y-m-d");
         $lastId = $this->getDbTable()->insert($formData);
-        var_dump($formData);
+        
         if (!$lastId) {
             throw new Exception("Couldn't insert data into database");
         }

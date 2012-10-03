@@ -10,8 +10,8 @@ class Admin_ResultController extends Zend_Controller_Action {
         $resultModel = new Admin_Model_Result();
         $this->view->result = $resultModel->getAll();
     }
-    
-     public function addAction() {
+
+    public function addAction() {
         $form = new Admin_Form_ResultForm();
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
@@ -22,7 +22,7 @@ class Admin_ResultController extends Zend_Controller_Action {
                 try {
                     $resultModel = new Admin_Model_Result();
                     $resultModel->add($formData);
-                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Result added"));
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Result added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
                     $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
@@ -30,9 +30,8 @@ class Admin_ResultController extends Zend_Controller_Action {
             }
         }
     }
-    
-    
-     public function editAction() {
+
+    public function editAction() {
 
         $form = new Admin_Form_ResultForm();
         $form->submit->setLabel("Save");
@@ -50,7 +49,7 @@ class Admin_ResultController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $resultModel->update($formData, $id);
-                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Result edited"));
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Result edited"));
                     $this->_helper->redirector('index');
                 }
             }
@@ -74,13 +73,53 @@ class Admin_ResultController extends Zend_Controller_Action {
             }
         }
     }
-    public function detailAction()
-    {
-        $id = $this->_getParam("id",0);
+
+    public function detailAction() {
+        $id = $this->_getParam("id", 0);
         $form = new Admin_Form_ResultdetailForm();
         $form->result_id->setValue($id);
         echo $form;
         echo $id;
+    }
+
+    public function searchAction() {
+        $form = new Admin_Form_StudentSearchForm();
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            if ($formData['add'] == "Add") {
+                foreach ($formData as $data) {
+                    if (is_array($data)) {
+                        foreach ($data as $row) {
+                            $arra = array();
+                            unset($row['result_id']);
+                            unset($formData['add']);
+                            $arr = $row;
+                            $arr['grade'] = $formData['grade'];
+                            $arr['subject_id'] = $formData['subject_id'];
+                            $arr['exam_type'] = $formData['exam_type'];
+                            $resultModel = new Admin_Model_Result();
+                            $resultModel->add($arr);
+                        }
+                    }
+                }
+            }
+//            echo "<pre>";
+//            print_r($formData);
+//            exit;
+            if ("Search" == $formData['Search']) {
+                unset($formData['Search']);
+                $studentModel = new Admin_Model_Student();
+                $results = $studentModel->search($formData);
+                $subjectModel = new Admin_Model_Subject();
+                $subOptions = $subjectModel->getSubjects($formData['grade']);
+                $addForm = new Admin_Form_ResultaddForm(sizeof($results));
+                $addForm->subject_id->addMultiOptions($subOptions);
+                $addForm->grade->setValue($formData['grade']);
+                $this->view->addForm = $addForm;
+                $this->view->searchResults = $results;
+            }
+        }
     }
 
 }

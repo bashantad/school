@@ -75,6 +75,20 @@ class Admin_Model_Subject {
     	$result = $this->getDbTable()->fetchAll("del='N'");
         return $result->toArray();
     }
+    public function getSubjects($grade){
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("s" => "school_subjects"), array("s.name","s.subject_id"))
+                ->where("s.grade ='$grade' AND s.del='N'");
+        $results = $db->fetchAll($select);
+        $options = array();
+        foreach($results as $result){
+            $options[$result['subject_id']] = $result['name'];
+        }
+        return $options;
+        
+        
+    }
 
 }
 
