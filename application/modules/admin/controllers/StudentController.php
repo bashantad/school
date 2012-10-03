@@ -4,8 +4,10 @@ class Admin_StudentController extends Zend_Controller_Action {
 
     public function init() {
         /* Initialize action controller here */
+        if (!Zend_Auth::getInstance()->hasIdentity()) {
+            $this->_helper->redirector('index', 'login');
+        }
     }
-
     public function indexAction() {
         $studentModel = new Admin_Model_Student();
         $this->view->result = $studentModel->getAll();

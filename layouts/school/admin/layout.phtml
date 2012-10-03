@@ -8,11 +8,13 @@
         $this->headScript()->appendFile($this->baseUrl() . "/common/js/jquery-1.7.2.min.js");
         $this->headScript()->appendFile($this->baseUrl() . "/common/js/jquery-ui-1.8.21.custom.min.js");
         $this->headLink()->appendStylesheet($this->baseUrl() . "/common/css/jquery-ui-1.8.21.custom.css");
+        $this->headLink()->appendStylesheet($this->baseUrl() . 'facebook.php');
         echo $this->headLink();
         echo $this->headScript();
         ?>
     </head>
     <body>
+        <?php // echo Zend_Auth::getInstance()->getIdentity()->full_name; ?>
         <div id="container">
             <div id="top-navigation">
                 <ul class="nav">
@@ -23,8 +25,12 @@
                     <li><a href="<?php echo $this->baseUrl() . '/admin/image/list'; ?>">Image</a></li>
                     <li><a href="<?php echo $this->baseUrl() . '/admin/gallery/list'; ?>">Gallery</a></li>
                     <?php if (Zend_Auth::getInstance()->hasIdentity()) { ?>
-                        <li><a href="<?php echo $this->baseUrl() . '/admin/index/logout'; ?>">Logout</a></li>
+                        <li><a href="<?php echo $this->baseUrl() . '/admin/login/logout'; ?>">Logout</a></li>
                     <?php } ?>
+                    <li>
+                        <?php
+                        ?>
+                    </li>    
                 </ul>
 
             </div>

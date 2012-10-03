@@ -2,8 +2,11 @@
 
 class Admin_SubjectController extends Zend_Controller_Action {
 
-    public function init() {
-        
+   public function init() {
+        /* Initialize action controller here */
+        if (!Zend_Auth::getInstance()->hasIdentity()) {
+            $this->_helper->redirector('index', 'login');
+        }
     }
 
     public function indexAction() {
@@ -77,13 +80,11 @@ class Admin_SubjectController extends Zend_Controller_Action {
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "grid.ini", 'production');
         $grid = Bvb_Grid::factory('Table', $config);
         $data = $this->_listdata();
-        // echo "<pre>";
-        //print_r($data);exit;
         $source = new Bvb_Grid_Source_Array($data);
+		$baseUrl = Zend_Controller_Front::getInstance()->getBaseUrl();
         $grid->setSource($source);
-        $grid->setImagesUrl('/grid/');
+        $grid->setImagesUrl("$baseUrl/grid/");
         $editColumn = new Bvb_Grid_Extra_Column();
-        $baseUrl = Zend_Controller_Front::getInstance()->getBaseUrl();
         $editColumn->setPosition('right')->setName('Edit')->setDecorator("<a href=\"$baseUrl/admin/subject/edit/id/{{subject_id}}\">Edit</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{subject_id}}\"/>");
         $deleteColumn = new Bvb_Grid_Extra_Column();
         $deleteColumn->setPosition('right')->setName('Delete')->setDecorator("<a class=\"delete-data\" href=\"$baseUrl/admin/subject/delete/id/{{subject_id}}\">Delete</a>");
@@ -111,7 +112,6 @@ class Admin_SubjectController extends Zend_Controller_Action {
         $i = 1;
         foreach ($allMenus as $menu):
             $data = array();
-            $data['sn'] = $i++;
             $data['subject_id'] = $menu['subject_id'];
             $data['grade'] = $menu['grade'];
             $data['name'] = $menu['name'];

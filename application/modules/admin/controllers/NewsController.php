@@ -2,6 +2,13 @@
 
 class Admin_NewsController extends Zend_Controller_Action {
 
+    public function init() {
+        /* Initialize action controller here */
+        if (!Zend_Auth::getInstance()->hasIdentity()) {
+            $this->_helper->redirector('index', 'login');
+        }
+    }
+    
     public function indexAction() {
         $newsModel = new Admin_Model_News();
         $this->view->result = $newsModel->getAll();
@@ -18,10 +25,10 @@ class Admin_NewsController extends Zend_Controller_Action {
                 try {
                     $newsModel = new Admin_Model_News();
                     $newsModel->add($formData);
-                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully News added"));
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully News added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
-                   $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
+                    $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
                 }
             }
         }
@@ -45,7 +52,7 @@ class Admin_NewsController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $newsModel->update($formData, $id);
-                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully News edited"));
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully News edited"));
                     $this->_helper->redirector('index');
                 }
             }
@@ -78,9 +85,9 @@ class Admin_NewsController extends Zend_Controller_Action {
         //print_r($data);exit;
         $source = new Bvb_Grid_Source_Array($data);
         $grid->setSource($source);
-        $grid->setImagesUrl('/grid/');
-        $editColumn = new Bvb_Grid_Extra_Column();
         $baseUrl = Zend_Controller_Front::getInstance()->getBaseUrl();
+        $grid->setImagesUrl("$baseUrl/grid/");
+        $editColumn = new Bvb_Grid_Extra_Column();
         $editColumn->setPosition('right')->setName('Edit')->setDecorator("<a href=\"$baseUrl/admin/news/edit/id/{{news_id}}\">Edit</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{news_id}}\"/>");
         $deleteColumn = new Bvb_Grid_Extra_Column();
         $deleteColumn->setPosition('right')->setName('Delete')->setDecorator("<a class=\"delete-data\" href=\"$baseUrl/admin/news/delete/id/{{student_id}}\">Delete</a>");
