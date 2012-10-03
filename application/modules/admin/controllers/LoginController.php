@@ -61,4 +61,3 @@ class Admin_LoginController extends Zend_Controller_Action {
     }
 
 }
-
