@@ -107,12 +107,14 @@ class Admin_Model_Result {
         $rollno = $formData['roll_no'];
          $year = $formData['year'];
         $grade = $formData['grade'];
-        $examtype = $formData['exam_type'];
+        $examtype = $formData['examtype_id'];
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select();
         $select->from(array("ur" => "school_result"), array("ur.*"))
-                ->joinLeft(array("k" => "school_students"), "ur.student_id=k.student_id", array("k.full_name as result_student"))
-                ->where("ur.del='N' AND k.roll_no='$rollno' AND ur.grade='$grade'AND ur.year='$year' AND ur.exam_type='$examtype'");
+                ->joinLeft(array("k" => "school_students"), "ur.student_id=k.student_id", array("k.full_name","k.roll_no"))
+                ->joinLeft(array("s" => "school_subjects"), "ur.subject_id=s.subject_id", array("s.name as subject"))
+                ->joinLeft(array("e" => "school_examtype"), "ur.examtype_id=e.examtype_id", array("e.*"))
+                ->where("ur.del='N' AND k.roll_no='$rollno' AND ur.grade='$grade'AND ur.year='$year' AND e.examtype_id ='$examtype'");
         $results = $db->fetchAll($select);
         return $results;
     }
@@ -120,13 +122,14 @@ class Admin_Model_Result {
     public function searchAllResults($formData) {
         $year = $formData['year'];
         $grade = $formData['grade'];
-        $examtype = $formData['exam_type'];
+        $examtype = $formData['examtype_id'];
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select();
         $select->from(array("ur" => "school_result"), array("ur.*"))
-                ->joinLeft(array("s" => "school_students"), "ur.student_id=s.student_id", array("s.full_name as result_studentname","s.roll_no as result_rollno"))
-                ->joinLeft(array("k" => "school_subjects"), "ur.subject_id=k.subject_id", array("k.name as result_subject"))
-                ->where("ur.del='N' AND ur.year='$year' AND ur.grade='$grade' AND ur.exam_type='$examtype'");
+                ->joinLeft(array("s" => "school_students"), "ur.student_id=s.student_id", array("s.full_name","s.roll_no"))
+                ->joinLeft(array("k" => "school_subjects"), "ur.subject_id=k.subject_id", array("k.name as subject"))
+                ->joinLeft(array("e" => "school_examtype"), "ur.examtype_id=e.examtype_id", array("e.*"))
+                ->where("ur.del='N' AND ur.year='$year' AND ur.grade='$grade' AND e.examtype_id='$examtype'");
         $results = $db->fetchAll($select);
         return $results;
     }

@@ -44,7 +44,9 @@ class Admin_Form_ResultaddForm extends Zend_Form {
 
     public function init() {
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "class.ini", "production");
-        $examTypeOptions = $config->exam_type->toArray();
+       // $examTypeOptions = $config->exam_type->toArray();
+        $examtypeModel = new Admin_Model_Examtype();
+        $examTypeOptions = $examtypeModel->getexamType();
 
         for ($index = 0; $index < $this->_param; $index++) {
             $subForm = $this->createElements($index);
@@ -57,7 +59,7 @@ class Admin_Form_ResultaddForm extends Zend_Form {
         $subjectId = new Zend_Form_Element_Select("subject_id");
         $subjectId->setLabel("Subject")
                 ->setAttribs(array("class" => "form-select"));
-        $examType = new Zend_Form_Element_Select("exam_type");
+        $examType = new Zend_Form_Element_Select("examtype_id");
         $examType->setLabel("Exam Type")
                 ->setAttribs(array("class" => "form-select"))
                 ->addMultiOptions($examTypeOptions);
@@ -75,7 +77,7 @@ class Admin_Form_ResultaddForm extends Zend_Form {
         $submit = new Zend_Form_Element_Submit("Search");
         $submit->setLabel("Add")
                 ->setAttribs(array("id" => "signin_submit"));
-        $this->addElements(array($subjectId, $fullMarks, $passMarks, $examType,$year, $grade, $submit));
+        $this->addElements(array($subjectId,$examType,$year, $grade, $submit));
         $this->setElementDecorators(array(
             'viewHelper',
             'Description',

@@ -59,8 +59,16 @@ class Admin_Model_Examtype {
     }
 
     public function listAll() {
-        $result = $this->getDbTable()->fetchAll();
+        $result = $this->getDbTable()->fetchAll("del='N'");
         return $result->toArray();
+    }
+     public function getexamType() {
+        $result = $this->getDbTable()->fetchAll("del='N'");
+        $options = array('' => '--Select--');
+        foreach ($result as $result) {
+            $options[$result['examtype_id']] = $result['name'];
+        }
+        return $options;
     }
 
 }

@@ -6,8 +6,9 @@ class Admin_Form_ResultSearchForm extends Zend_Form {
         $this->setMethod("post");
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "class.ini", "production");
         $gradeOptions = $config->grade->toArray();
-        $examTypeOptions = $config->exam_type->toArray();
         $sectionOptions = $config->section->toArray();
+        $examtypeModel = new Admin_Model_Examtype();
+        $examTypeOptions = $examtypeModel->getexamType();
         $yearOption = array();
         for ($i = 2000; $i < 2020; $i++) {
             $yearOption[$i] = $i;
@@ -36,7 +37,7 @@ class Admin_Form_ResultSearchForm extends Zend_Form {
                 ->addValidator('NotEmpty', true, array("messages" => "Roll Number can't be empty"))
                 ->setAttribs(array('class' => 'feilds-text', 'id' => 'rollnumber'));
         //exam type
-        $examType = new Zend_Form_Element_Select("exam_type");
+        $examType = new Zend_Form_Element_Select("examtype_id");
         $examType->setLabel("Exam Type")
                 ->setRequired(true)
                 ->setAttribs(array('class' => 'feilds-select', 'id' => 'marital'))

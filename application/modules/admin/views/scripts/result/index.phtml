@@ -9,7 +9,6 @@ $form = $this->form->getElements();
         <div id="divlinks">  
             <div id="divNav">
                 <ul>
-
                 </ul>
             </div>
         </div>
@@ -31,7 +30,7 @@ $form = $this->form->getElements();
             </div>
             <div class="form-item-wrapper">
                 <label>Exam Type</label>
-                <?php echo $form["exam_type"] ?>
+                <?php echo $form["examtype_id"] ?>
             </div>
             <div class="form-item-wrapper">
                 <label>Roll No</label>
@@ -54,32 +53,55 @@ $form = $this->form->getElements();
     </form>    
     <div class="clear"></div>
     <hr />
-    <?php if ($this->searchResults) { ?>
-        <?php
+    <?php
+    if ($this->searchResults) {
         $arr = array();
+        $subject = array();
+        foreach ($this->searchResults as $result) {
+            $key = $result['student_id'] . "::" . $result['full_name'] . "::" . $result['roll_no'];
+            $arr[$key][] = $result;
+            $subject[$result['subject_id']] = $result['subject'];
+        }
         ?>
         <table>
             <tr>
                 <th>Roll No</th>
-                <th>Name of Students</th>
-                <?php foreach ($this->subjects as $result) { ?>
-                    <th><?php echo $result['name']; ?></th>
+                <th>Name</th>
+                <?php foreach ($subject as $sub) { ?>
+                    <th><?php echo $sub; ?></th>
                 <?php } ?>
                 <th>Percentage</th>
             </tr>
-            <?php foreach ($this->searchResults as $results): ?>
+            <?php foreach ($arr as $key => $result): ?>
+                <?php $var = explode("::", $key); ?>
                 <tr>
-                    <td> <?php echo $results['result_rollno']; ?></td>
-                    <td><?php echo $results['result_studentname']; ?></td>
-                    <td><?php echo $results['marks']; ?></td>
-                    <td><?php echo "52%"; ?></td>
+                    <td><?php echo $var[2]; ?> </td>
+                    <td><?php echo $var[1]; ?> </td>
+                    <?php
+                    $sum = 0;
+                    foreach ($result as $val) {
+                        $sum +=$val['marks'];
+                        ?>
+                        <td> <?php echo $val['marks']; ?></td>
+                    <?php } ?>
+                    <td><?php echo number_format($sum / sizeof($arr), 2) . "%"; ?></td>
                 </tr>
                 <?php
             endforeach;
             ?>
         </table>
     <?php } ?>
-    <?php if ($this->searchoneResult) { ?>
+    <?php
+    if ($this->searchoneResult) {
+        $arr = array();
+        $subject = array();
+        foreach ($this->searchoneResult as $result) {
+            $key = $result['student_id'] . "::" . $result['full_name'] . "::" . $result['roll_no'];
+            $arr[$key][] = $result;
+            $subject[$result['subject_id']] = $result['subject'];
+            //var_dump($result);exit;
+        }
+        ?>
         <label>Name</label>
         <table>
             <tr>
@@ -89,8 +111,11 @@ $form = $this->form->getElements();
                 <th>Obtained</th>
                 <th></th>
             </tr>
-            <tr>
-                <td></td>
+
+            <?php foreach ($subject as $sub) { ?>
+                <tr>
+                    <td><?php echo $sub; ?></td>
+                <?php } ?>
                 <td></td>
                 <td></td>
                 <td></td>
