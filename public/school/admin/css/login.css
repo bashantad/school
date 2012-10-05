@@ -1,0 +1,30 @@
+#login-fieldset{
+    position: absolute;
+    top: 0px;
+    right: 550px;
+    width: 32%;
+    padding: -2px 0% 60px 0%;
+    margin: 52px 0 35px 0px;
+    background: none repeat scroll 0 0 #F0F0F0;
+    border: 1px solid rgba(147, 184, 189,0.8);
+    box-shadow:
+        0pt 2px 5px rgba(105, 108, 109,  0.7), 
+        0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    border-radius: 5px;
+}
+#login-fieldset{
+    z-index: 22;
+}
+#login-box{
+    position: static;
+    top: 0px;
+    width: inherit;
+    padding: 16px 60% 56px 6%;
+    margin: 0px 30px 30px 4px;
+    background: rgb(247, 247, 247);
+    border: 1px solid rgba(147, 184, 189,0.8);
+    box-shadow:
+        0pt 2px 5px rgba(105, 108, 109,  0.7), 
+        0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
+    border-radius: 5px;
+}

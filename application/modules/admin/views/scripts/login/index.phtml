@@ -1,5 +1,9 @@
+<?php echo $this->headLink()->appendStylesheet($this->baseUrl() . "/school/admin/css/login.css"); ?> 
 <?php $this->headTitle('Login'); ?>
-<fieldset>
-    <legend><h1>Login</h1></legend>
-    <?php echo $this->form->setAction($this->url()); ?>
+<fieldset id="login-fieldset">
+    <legend><h2>School Management System Login</h2></legend>
+    <div id="login-box">
+        <?php echo $this->form->setAction($this->url()); ?>
+    </div>
 </fieldset>
+
