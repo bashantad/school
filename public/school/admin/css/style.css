@@ -66,3 +66,18 @@ input[type="text"]:active,input[type="select"]:active{
 #filter_roll_no{
     width:30px;
 }
+.form-item{
+    padding:5px;
+    width:220px;
+    float:left;
+}
+.marks-wrapper{
+    padding:5px 15px;
+}
+.student-list{
+    width:250px;
+}
+.form-item-wrapper{
+    width:210px;
+    float:left;
+}

@@ -90,6 +90,34 @@ class Admin_Model_Student {
         return $results;
     }
 
+    public function getStudentName($grade) {
+        $where = "s.del='N'AND s.grade='$grade' ";
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("s" => "school_students"), array("s.*"))
+                ->where($where);
+        $results = $db->fetchAll($select);
+        $options = array('' => '--Select--');
+        foreach ($results as $result) {
+            $options[$result['student_id']] = $result['full_name'];
+        }
+        //var_dump($options);exit;
+        return $options;
+    }
+
+    public function searchAllNames() {
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("s" => "school_students"), array("s.*"))
+                ->where("s.del='N'");
+        $results = $db->fetchAll($select);
+        $options = array('' => '--Select--');
+        foreach ($results as $result) {
+            $options[$result['student_id']] = $result['full_name'];
+        }
+        return $options;
+    }
+
 }
 
 ?>

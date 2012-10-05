@@ -3,6 +3,9 @@
 class Admin_ResultController extends Zend_Controller_Action {
 
     public function init() {
+        $ajaxContext = $this->_helper->getHelper('AjaxContext');
+        $ajaxContext->addActionContext('studentautocomplete', 'json')
+                ->initContext();
         /* Initialize action controller here */
         if (!Zend_Auth::getInstance()->hasIdentity()) {
             $this->_helper->redirector('index', 'login');
@@ -10,8 +13,36 @@ class Admin_ResultController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        $resultModel = new Admin_Model_Result();
-        $this->view->result = $resultModel->getAll();
+        $form = new Admin_Form_ResultSearchForm();
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            if ("Search" == $formData['Search']) {
+                if ($form->isValid($formData)) {
+                    unset($formData['Search']);
+                    if ($formData['year'] != "" && $formData['grade'] != "" && $formData['exam_type'] != "" && $formData['roll_no'] == "") {
+                        $resultModel = new Admin_Model_Result();
+                        $results = $resultModel->searchAllResults($formData);
+                        $subjectModel = new Admin_Model_Subject();
+                        $subOptions = $subjectModel->getonlySubjects($formData['grade']);
+                        $this->view->subjects = $subOptions;
+//                        echo "<pre>";
+//                        print_r($results);
+//                        exit;
+                        $this->view->searchResults = $results;
+                    } elseif ($formData['roll_no'] != "" && $formData['year'] != "" && $formData['grade'] != "" && $formData['exam_type'] != "") {
+                        // $formData['student_id'] = $formData['full_name'];
+                        // unset($formData['full_name']);
+                        $resultModel = new Admin_Model_Result();
+                        $results = $resultModel->searchResultRollWise($formData);
+//                         echo "<pre>";
+//                        print_r($results);
+//                        exit;
+                        $this->view->searchoneResult = $results;
+                    }
+                }
+            }
+        }
     }
 
     public function addAction() {
@@ -90,38 +121,55 @@ class Admin_ResultController extends Zend_Controller_Action {
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
-            if ($formData['add'] == "Add") {
+            if ("Search" == $formData['Search']) {
+                if ($form->isValid($formData)) {
+                    unset($formData['Search']);
+                    $studentModel = new Admin_Model_Student();
+                    $results = $studentModel->search($formData);
+                    $subjectModel = new Admin_Model_Subject();
+                    $subOptions = $subjectModel->getSubjects($formData['grade']);
+                    $addForm = new Admin_Form_ResultaddForm(sizeof($results));
+                    $this->view->number = sizeof($results);
+                    $addForm->subject_id->addMultiOptions($subOptions);
+                    $addForm->grade->setValue($formData['grade']);
+                    $addForm->year->setValue($formData['year']);
+                    $this->view->addForm = $addForm;
+                    $this->view->searchResults = $results;
+                    $formData['Search'] = "Search";
+                }
+            }
+            if ("Add" == $formData['Search']) {
+                $addForm = new Admin_Form_ResultaddForm($formData['size_of_students']);
+                unset($formData['size_of_students']);
                 foreach ($formData as $data) {
+                    $resultModel = new Admin_Model_Result();
                     if (is_array($data)) {
                         foreach ($data as $row) {
-                            $arra = array();
+                            $arr = array();
                             unset($row['result_id']);
-                            unset($formData['add']);
+                            unset($formData['Search']);
                             $arr = $row;
                             $arr['grade'] = $formData['grade'];
                             $arr['subject_id'] = $formData['subject_id'];
                             $arr['exam_type'] = $formData['exam_type'];
-                            $resultModel = new Admin_Model_Result();
+                            $arr['full_marks'] = $formData['full_marks'];
+                            $arr['pass_marks'] = $formData['pass_marks'];
+                            $arr['year'] = $formData['year'];
                             $resultModel->add($arr);
                         }
                     }
                 }
             }
-//            echo "<pre>";
-//            print_r($formData);
-//            exit;
-            if ("Search" == $formData['Search']) {
-                unset($formData['Search']);
-                $studentModel = new Admin_Model_Student();
-                $results = $studentModel->search($formData);
-                $subjectModel = new Admin_Model_Subject();
-                $subOptions = $subjectModel->getSubjects($formData['grade']);
-                $addForm = new Admin_Form_ResultaddForm(sizeof($results));
-                $addForm->subject_id->addMultiOptions($subOptions);
-                $addForm->grade->setValue($formData['grade']);
-                $this->view->addForm = $addForm;
-                $this->view->searchResults = $results;
-            }
+        }
+    }
+
+    public function studentautocompleteAction() {
+        $grade = $this->_getParam("id");
+        if ($grade) {
+            $studentModel = new Admin_Model_Student();
+            $name = $studentModel->getStudentName($grade);
+            $this->view->results = $studentModel->getStudentName($grade);
+            $this->view->html = $this->view->render("result/studentautocomplete.phtml");
         }
     }
 

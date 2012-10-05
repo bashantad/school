@@ -12,6 +12,11 @@
         echo $this->headLink();
         echo $this->headScript();
         ?>
+        <script type="text/javascript">
+            site = {
+                'baseUrl':"<?php echo $this->baseUrl(); ?>"
+            };
+        </script>
     </head>
     <body>
         <?php // echo Zend_Auth::getInstance()->getIdentity()->full_name; ?>
@@ -32,7 +37,6 @@
                         ?>
                     </li>    
                 </ul>
-
             </div>
             <div class="flash-messages">
                 <?php

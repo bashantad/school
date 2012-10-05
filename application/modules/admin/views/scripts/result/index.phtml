@@ -1,33 +1,101 @@
-<table align="right" width="100%" border="1px solid black">
-    <tr>
-        <th> Result ID        </th>
-        <th> Student ID     </th>
-        <th> Class        </th>
-        <th> Percent </th>
-        <th> Exam Type </th>
-        <th> Remarks </th>
-        <th> Detail </th>
-        <th> Edit </th>
-        <th> Delete </th>
-    </tr>
-    <?php foreach ($this->result as $result): ?>
+<link href="<?php echo $this->baseUrl() . '/school/admin/css/subject.css'; ?>" rel="stylesheet" type="text/css" />
+<?php
+$form = $this->form->getElements();
+?>
+<div id="">
+    <div id="divwrapper">
+        <div id="divheader"></div>
+        <div id="divLine">&nbsp; </div>
+        <div id="divlinks">  
+            <div id="divNav">
+                <ul>
 
-        <tr>
-            <td><?php echo $result['result_id']; ?></td>
-            <td><?php echo $result['result_student']; ?></td>
-            <td><?php echo $result['class']; ?></td>
-            <td><?php echo $result['percent']; ?></td>
-            <td><?php echo $result['exam_type']; ?></td>
-            <td><?php echo $result['remarks']; ?></td>
-            <td>
-                <a href="<?php echo $this->url(array('controller' => 'result', 'action' => 'detail', 'id' => $result['result_id'])); ?>">Detail </a>
-            </td>
-            <td>
-                <a href="<?php echo $this->url(array('controller' => 'result', 'action' => 'edit', 'id' => $result['result_id'])); ?>">Edit </a>
-            </td>
-            <td>
-                <a href="<?php echo $this->url(array('controller' => 'result', 'action' => 'delete', 'id' => $result['result_id'])); ?>">Delete</a>
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</table>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <form action="" method="post"> 
+        <div id="divdropwrapper">
+            <div class="form-item-wrapper">
+                <label>Year</label>
+                <?php echo $form['year']; ?>
+
+            </div>
+            <div class="form-item-wrapper">
+                <label>Class</label>
+                <?php echo $form['grade']; ?>
+            </div>
+            <div class="form-item-wrapper">
+                <label>Section</label>
+                <?php echo $form['section']; ?>
+            </div>
+            <div class="form-item-wrapper">
+                <label>Exam Type</label>
+                <?php echo $form["exam_type"] ?>
+            </div>
+            <div class="form-item-wrapper">
+                <label>Roll No</label>
+                <?php echo $form['roll_no']; ?>
+            </div>
+            <div class="form-item-wrapper">
+
+                <label>Student Name</label>
+                <?php echo $form["full_name"] ?>
+            </div>
+            <div class="form-item-wrapper">
+
+            </div>
+            <div class="form-item-wrapper" id="submit-wrapper">
+                <br />
+                <?php echo $form['Search']; ?> 
+            </div>
+            <div class="clear"></div>
+        </div>
+    </form>    
+    <div class="clear"></div>
+    <hr />
+    <?php if ($this->searchResults) { ?>
+        <?php
+        $arr = array();
+        ?>
+        <table>
+            <tr>
+                <th>Roll No</th>
+                <th>Name of Students</th>
+                <?php foreach ($this->subjects as $result) { ?>
+                    <th><?php echo $result['name']; ?></th>
+                <?php } ?>
+                <th>Percentage</th>
+            </tr>
+            <?php foreach ($this->searchResults as $results): ?>
+                <tr>
+                    <td> <?php echo $results['result_rollno']; ?></td>
+                    <td><?php echo $results['result_studentname']; ?></td>
+                    <td><?php echo $results['marks']; ?></td>
+                    <td><?php echo "52%"; ?></td>
+                </tr>
+                <?php
+            endforeach;
+            ?>
+        </table>
+    <?php } ?>
+    <?php if ($this->searchoneResult) { ?>
+        <label>Name</label>
+        <table>
+            <tr>
+                <th>Subjects</th>
+                <th>Full Marks</th>
+                <th>Pass Marks</th>
+                <th>Obtained</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td col span="2"></td>
+            </tr>
+        <?php } ?>
+</div> 
+<?php echo $this->headScript()->appendFile($this->baseUrl() . "/school/admin/js/studentautocomplete.js"); ?>

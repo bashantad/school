@@ -21,12 +21,13 @@ class Admin_Form_ResultaddForm extends Zend_Form {
 
         $marks = new Zend_Form_Element_Text("marks");
         $marks->setLabel("Marks")
-                ->setAttribs(array('class' => 'fields-sd', 'id' => 'marital'))
-                ->setBelongsTo("students[{$index}]");
+                ->setAttribs(array('class' => 'fields-sd', 'id' => 'marital', "size" => "40"))
+                ->setBelongsTo("students[{$index}]")
+                ->setRequired(true);
 
         $remarks = new Zend_Form_Element_Text("remarks");
         $remarks->setLabel("Remarks")
-                ->setAttribs(array("class" => "form-text booking-restriction"))
+                ->setAttribs(array("class" => "form-text", "size" => "40"))
                 ->addValidator("Alnum")
                 ->setBelongsTo("students[{$index}]");
 
@@ -51,27 +52,48 @@ class Admin_Form_ResultaddForm extends Zend_Form {
                 "results[{$index}]" => $subForm
             ));
         }
+        $year = new Zend_Form_Element_Hidden("year");
         $grade = new Zend_Form_Element_Hidden("grade");
         $subjectId = new Zend_Form_Element_Select("subject_id");
         $subjectId->setLabel("Subject")
-                ->setAttribs(array("class" => "form-text booking-email"));
+                ->setAttribs(array("class" => "form-select"));
         $examType = new Zend_Form_Element_Select("exam_type");
         $examType->setLabel("Exam Type")
+                ->setAttribs(array("class" => "form-select"))
                 ->addMultiOptions($examTypeOptions);
 
-        $submit = new Zend_Form_Element_Submit("add");
+        $fullMarks = new zend_Form_Element_Text("full_marks");
+        $fullMarks->setLabel("Full Marks")
+                ->setAttribs(array("class" => "form-text"))
+                ->setRequired(true);
+
+        $passMarks = new zend_Form_Element_Text("pass_marks");
+        $passMarks->setLabel("Pass Marks")
+                ->setAttribs(array("class" => "form-text"))
+                ->setRequired(true);
+
+        $submit = new Zend_Form_Element_Submit("Search");
         $submit->setLabel("Add")
                 ->setAttribs(array("id" => "signin_submit"));
-        $this->addElements(array($subjectId, $examType,$grade, $submit));
+        $this->addElements(array($subjectId, $fullMarks, $passMarks, $examType,$year, $grade, $submit));
         $this->setElementDecorators(array(
             'viewHelper',
             'Description',
             'Errors',
             array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'clear input-wrapper')),
             array('Label', array()),
-            array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'clear booking-detail-item'))
+            array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'form-item'))
         ));
-
+        $grade->setDecorators(array(
+            'viewHelper',
+            'Description',
+            'Errors',
+        ));
+        $year->setDecorators(array(
+            'viewHelper',
+            'Description',
+            'Errors',
+        ));
 
         $submit->removeDecorator("label");
     }

@@ -31,19 +31,18 @@ class Admin_Model_Result {
         $results = $db->fetchAll($select);
         return $results;
     }
- 
- 
+
     public function add($formData) {
         $formData['entered_date'] = date("Y-m-d");
         $lastId = $this->getDbTable()->insert($formData);
-        
+
         if (!$lastId) {
             throw new Exception("Couldn't insert data into database");
         }
         return $lastId;
     }
-    
-        public function getKeysAndValues() {
+
+    public function getKeysAndValues() {
         $result = $this->getDbTable()->fetchAll("del='N'");
         $options = array('' => '--Select--');
         foreach ($result as $result) {
@@ -52,7 +51,7 @@ class Admin_Model_Result {
         return $options;
     }
 
-     public function getDetailById($id) {
+    public function getDetailById($id) {
         $row = $this->getDbTable()->fetchRow("result_id='$id'");
         if (!$row) {
             throw new Exception("Couldn't fetch such data");
@@ -72,6 +71,64 @@ class Admin_Model_Result {
             var_dump($e->getMessage());
             exit;
         }
+    }
+
+    public function searchDetail($data) {
+        $where = "s.del='N' ";
+        if (is_array($data)) {
+            foreach ($data as $key => $val) {
+                if ($val) {
+                    $where .=" AND s.$key='$val'";
+                }
+            }
+        }
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("s" => "school_result"), array("s.*"))
+                ->where($where);
+        $results = $db->fetchAll($select);
+        return $results;
+    }
+
+    public function searchAllNames() {
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("s" => "school_students"), array("s.*"))
+                ->where("s.del='N'");
+        $results = $db->fetchAll($select);
+        $options = array('' => '--Select--');
+        foreach ($results as $result) {
+            $options[$result['student_id']] = $result['full_name'];
+        }
+        return $options;
+    }
+
+    public function searchResultRollWise($formData) {
+        $rollno = $formData['roll_no'];
+         $year = $formData['year'];
+        $grade = $formData['grade'];
+        $examtype = $formData['exam_type'];
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select();
+        $select->from(array("ur" => "school_result"), array("ur.*"))
+                ->joinLeft(array("k" => "school_students"), "ur.student_id=k.student_id", array("k.full_name as result_student"))
+                ->where("ur.del='N' AND k.roll_no='$rollno' AND ur.grade='$grade'AND ur.year='$year' AND ur.exam_type='$examtype'");
+        $results = $db->fetchAll($select);
+        return $results;
+    }
+
+    public function searchAllResults($formData) {
+        $year = $formData['year'];
+        $grade = $formData['grade'];
+        $examtype = $formData['exam_type'];
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select();
+        $select->from(array("ur" => "school_result"), array("ur.*"))
+                ->joinLeft(array("s" => "school_students"), "ur.student_id=s.student_id", array("s.full_name as result_studentname","s.roll_no as result_rollno"))
+                ->joinLeft(array("k" => "school_subjects"), "ur.subject_id=k.subject_id", array("k.name as result_subject"))
+                ->where("ur.del='N' AND ur.year='$year' AND ur.grade='$grade' AND ur.exam_type='$examtype'");
+        $results = $db->fetchAll($select);
+        return $results;
     }
 
 }
