@@ -20,7 +20,7 @@ class Admin_ResultController extends Zend_Controller_Action {
             if ("Search" == $formData['Search']) {
                 if ($form->isValid($formData)) {
                     unset($formData['Search']);
-                    if ($formData['year'] != "" && $formData['grade'] != "" && $formData['exam_type'] != "" && $formData['roll_no'] == "") {
+                    if ($formData['year'] != "" && $formData['grade'] != "" && $formData['examtype_id'] != "" && $formData['roll_no'] == "") {
                         $resultModel = new Admin_Model_Result();
                         $results = $resultModel->searchAllResults($formData);
                         $subjectModel = new Admin_Model_Subject();
@@ -30,7 +30,7 @@ class Admin_ResultController extends Zend_Controller_Action {
 //                        print_r($results);
 //                        exit;
                         $this->view->searchResults = $results;
-                    } elseif ($formData['roll_no'] != "" && $formData['year'] != "" && $formData['grade'] != "" && $formData['exam_type'] != "") {
+                    } elseif ($formData['roll_no'] != "" && $formData['year'] != "" && $formData['grade'] != "" && $formData['examtype_id'] != "") {
                         // $formData['student_id'] = $formData['full_name'];
                         // unset($formData['full_name']);
                         $resultModel = new Admin_Model_Result();
@@ -151,9 +151,9 @@ class Admin_ResultController extends Zend_Controller_Action {
                             $arr = $row;
                             $arr['grade'] = $formData['grade'];
                             $arr['subject_id'] = $formData['subject_id'];
-                            $arr['exam_type'] = $formData['exam_type'];
-                            $arr['full_marks'] = $formData['full_marks'];
-                            $arr['pass_marks'] = $formData['pass_marks'];
+                            $arr['examtype_id'] = $formData['examtype_id'];
+                           // $arr['full_marks'] = $formData['full_marks'];
+                           // $arr['pass_marks'] = $formData['pass_marks'];
                             $arr['year'] = $formData['year'];
                             $resultModel->add($arr);
                         }
