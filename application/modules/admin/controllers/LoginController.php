@@ -7,6 +7,7 @@ class Admin_LoginController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
+        Zend_Layout::startMvc()->setLayout("login");
         $form = new Admin_Form_LoginForm();
         $request = $this->getRequest();
         if ($request->isPost()) {
@@ -41,6 +42,8 @@ class Admin_LoginController extends Zend_Controller_Action {
             $user = $adapter->getResultRowObject();
             $auth->getStorage()->write($user);
             return true;
+        }else{
+            $this->_helper->FlashMessenger->addMessage(array("error"=>"Oops!! Your email and password combination is wrong."));
         }
         return false;
     }

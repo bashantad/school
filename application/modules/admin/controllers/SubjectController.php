@@ -115,6 +115,7 @@ class Admin_SubjectController extends Zend_Controller_Action {
             $data['subject_id'] = $menu['subject_id'];
             $data['grade'] = $menu['grade'];
             $data['name'] = $menu['name'];
+            $data['short_name'] = $menu['short_name'];
             $menus[] = $data;
         endforeach;
         return $menus;

@@ -21,6 +21,10 @@ class Admin_Form_SubjectForm extends Zend_Form {
         $name->setLabel("Name")
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'))
                 ->setRequired(true);
+        
+        $short_name = new Zend_Form_Element_Text("short_name");
+        $short_name->setLabel("Short Name")
+                            ->setAttribs(array('size'=>30, 'class'=>'form-text'));
 
         $submit = new Zend_Form_Element_Submit("submit");
         $submit->setLabel("Submit");
@@ -29,6 +33,7 @@ class Admin_Form_SubjectForm extends Zend_Form {
             $subjectID,
             $grade,
             $name,
+            $short_name,
             $submit));
     }
 
