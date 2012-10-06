@@ -112,6 +112,10 @@ input[type="text"]:active,input[type="select"]:active{
     width:280px;
     height:50px;
     float:left;
+    background: #ccc;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
     -webkit-box-shadow: 7px 7px 5px rgba(50, 50, 50, 0.75);
     -moz-box-shadow:    7px 7px 5px rgba(50, 50, 50, 0.75);
     box-shadow:         7px 7px 5px rgba(50, 50, 50, 0.75);
@@ -120,4 +124,5 @@ input[type="text"]:active,input[type="select"]:active{
     text-decoration: none;
     font-size:30px;
     padding:10px;
+    color:#005fbf;
 }
