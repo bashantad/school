@@ -105,3 +105,13 @@ input[type="text"]:active,input[type="select"]:active{
 #filter_sn{
     width:100px;
 }
+.errors{
+    margin:0px;
+    padding:0px;
+}
+.errors li{
+    list-style:none; 
+    font-size:12px;
+    color:#cd0a0a;
+    font-weight: lighter;
+}
