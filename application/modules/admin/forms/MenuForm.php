@@ -4,7 +4,7 @@ class Admin_Form_MenuForm extends Zend_Form {
 
     public function init() {
 
-        $frontMenuID = new Zend_Form_Element_Hidden("front_menu_id");
+        $frontMenuID = new Zend_Form_Element_Hidden("menu_id");
 
         $menumodel = new Admin_Model_Menu();
         $option = $menumodel->getKeysAndValues();

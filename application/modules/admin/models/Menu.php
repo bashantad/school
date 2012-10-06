@@ -26,8 +26,8 @@ class Admin_Model_Menu {
         $allResults = array();
         $db = $this->getDbTable()->getDefaultAdapter();
         $select = $db->select();
-        $select->from(array("current" => "school_front_menu"), array("current.*"))
-                ->joinLeft(array("parent" => "school_front_menu"), "current.parent_menu_id=parent.front_menu_id", array("parent.title as upper_menu"));
+        $select->from(array("current" => "school_menu"), array("current.*"))
+                ->joinLeft(array("parent" => "school_menu"), "current.parent_menu_id=parent.menu_id", array("parent.title as upper_menu"));
         $results = $db->fetchAll($select);
         return $results;
     }
@@ -35,7 +35,7 @@ class Admin_Model_Menu {
     public function getAll() {
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select();
-        $select->from(array("m" => "school_front_menu"), array("m.*"))
+        $select->from(array("m" => "school_menu"), array("m.*"))
                 ->where("m.del='N'");
         $results = $db->fetchAll($select);
         return $results;
@@ -55,13 +55,13 @@ class Admin_Model_Menu {
         $result = $this->getDbTable()->fetchAll("del='N'");
         $options = array('' => '--Select--','0'=>'Main Menu');
         foreach ($result as $result) {
-            $options[$result['front_menu_id']] = $result['title'];
+            $options[$result['menu_id']] = $result['title'];
         }
         return $options;
     }
 
     public function getDetailById($id) {
-        $row = $this->getDbTable()->fetchRow("front_menu_id='$id'");
+        $row = $this->getDbTable()->fetchRow("menu_id='$id'");
         if (!$row) {
             throw new Exception("Couldn't fetch such data");
         }
@@ -69,13 +69,13 @@ class Admin_Model_Menu {
     }
 
     public function update($formData, $id) {
-        $this->getDbTable()->update($formData, "front_menu_id='$id'");
+        $this->getDbTable()->update($formData, "menu_id='$id'");
     }
 
     public function delete($id) {
         $data["del"] = "Y";
         try {
-            $this->getDbTable()->update($data, "front_menu_id='$id'");
+            $this->getDbTable()->update($data, "menu_id='$id'");
         } catch (Exception $e) {
             var_dump($e->getMessage());
             exit;
@@ -84,10 +84,10 @@ class Admin_Model_Menu {
 
     public function changeStatus($element_id) {
         $db = Zend_Db_Table::getDefaultAdapter();
-        $sql = "SELECT if(sh = 'Y', 'N', 'Y' ) as sh FROM school_front_menu WHERE front_menu_id ='$element_id'";
+        $sql = "SELECT if(sh = 'Y', 'N', 'Y' ) as sh FROM school_menu WHERE menu_id ='$element_id'";
         $row = $db->fetchRow($sql);
         $data = array('sh' => $row['sh']);
-        $this->getDbTable()->update($data, 'front_menu_id = ' . $element_id);
+        $this->getDbTable()->update($data, 'menu_id = ' . $element_id);
         return $row['sh'];
     }
 

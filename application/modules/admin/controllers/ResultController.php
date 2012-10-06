@@ -13,7 +13,7 @@ class Admin_ResultController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        $form = new Admin_Form_ResultSearchForm();
+        $form = new Admin_Form_ResultsearchForm();
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();

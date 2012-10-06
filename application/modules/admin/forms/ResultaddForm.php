@@ -21,13 +21,13 @@ class Admin_Form_ResultaddForm extends Zend_Form {
 
         $marks = new Zend_Form_Element_Text("marks");
         $marks->setLabel("Marks")
-                ->setAttribs(array('class' => 'fields-sd', 'id' => 'marital', "size" => "40"))
+                ->setAttribs(array('class' => 'form-text', 'id' => 'marital'))
                 ->setBelongsTo("students[{$index}]")
                 ->setRequired(true);
 
         $remarks = new Zend_Form_Element_Text("remarks");
         $remarks->setLabel("Remarks")
-                ->setAttribs(array("class" => "form-text", "size" => "40"))
+                ->setAttribs(array("class" => "form-text"))
                 ->addValidator("Alnum")
                 ->setBelongsTo("students[{$index}]");
 

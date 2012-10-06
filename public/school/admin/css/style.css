@@ -1,5 +1,4 @@
 /* main styles */
-
 body{
     padding:0px;
     margin:0px;
@@ -58,7 +57,7 @@ body{
     text-decoration:none;
     color:#fff;
 }
-.nav li a:hover{
+.nav li a:hover, .active{
     background:none repeat scroll 0 0 #000;
     padding:10px;
     color:#fff;
@@ -83,8 +82,8 @@ input[type="text"]:active,input[type="select"]:active{
 .form-select{
     width:220px;
 }
-#filter_roll_no{
-    width:30px;
+#filter_roll_no,#filter_phone,#filter_year,#filter_grade{
+    width:120px;
 }
 .form-item{
     padding:5px;
@@ -103,4 +102,21 @@ input[type="text"]:active,input[type="select"]:active{
 }
 #filter_sn{
     width:100px;
+}
+.dashboard-item{
+    border: 1px solid #005FBF;
+    padding:50px 10px;
+    text-align: center;
+    margin:15px;
+    width:280px;
+    height:50px;
+    float:left;
+    -webkit-box-shadow: 7px 7px 5px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    7px 7px 5px rgba(50, 50, 50, 0.75);
+    box-shadow:         7px 7px 5px rgba(50, 50, 50, 0.75);
+}
+.dashboard-item a{
+    text-decoration: none;
+    font-size:30px;
+    padding:10px;
 }

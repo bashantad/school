@@ -3,7 +3,7 @@
 class Admin_Model_DbTable_Menu extends Zend_Db_Table_Abstract
 {
 
-    protected $_name = 'school_front_menu';
+    protected $_name = 'school_menu';
 
 
 }
