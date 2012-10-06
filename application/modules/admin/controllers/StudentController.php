@@ -86,9 +86,11 @@ class Admin_StudentController extends Zend_Controller_Action {
         $grid->setImagesUrl("$baseUrl/grid/");
         $editColumn = new Bvb_Grid_Extra_Column();
         $editColumn->setPosition('right')->setName('Edit')->setDecorator("<a href=\"$baseUrl/admin/student/edit/id/{{student_id}}\">Edit</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{student_id}}\"/>");
+        $detailColumn = new Bvb_Grid_Extra_Column();
+        $detailColumn->setPosition('right')->setName('Detail')->setDecorator("<a href=\"$baseUrl/admin/student/detail/id/{{student_id}}\">Detail</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{student_id}}\"/>");
         $deleteColumn = new Bvb_Grid_Extra_Column();
         $deleteColumn->setPosition('right')->setName('Delete')->setDecorator("<a class=\"delete-data\" href=\"$baseUrl/admin/student/delete/id/{{student_id}}\">Delete</a>");
-        $grid->addExtraColumns($editColumn, $deleteColumn);
+        $grid->addExtraColumns($detailColumn,$editColumn, $deleteColumn);
         $grid->updateColumn('student_id', array('hidden' => true));
         $grid->updateColumn('del', array('hidden' => true));
         $grid->setRecordsPerPage(20);
@@ -115,12 +117,9 @@ class Admin_StudentController extends Zend_Controller_Action {
             $data['student_id'] = $menu['student_id'];
             $data['roll_no'] = $menu['roll_no'];
             $data['full_name'] = $menu['full_name'];
-            $data['email'] = $menu['email'];
             $data['phone'] = $menu['phone'];
-            $data['guardian_name'] = $menu['guardian_name'];
             $data['year'] = $menu['year'];
             $data['grade'] = $menu['grade'];
-            $data['section'] = $menu['section'];
             $menus[] = $data;
         endforeach;
         return $menus;

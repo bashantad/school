@@ -122,6 +122,10 @@ class Admin_ExamtypeController extends Zend_Controller_Action {
         endforeach;
         return $menus;
     }
+    public function dashboardAction()
+    {
+        
+    }
 
 }
 ?>

@@ -47,8 +47,8 @@ class Admin_MenuController extends Zend_Controller_Action
             if ($this->getRequest()->isPost()) {
                 if ($form->Valid($this->getRequest()->getPost())) {
                     $formData = $this->getRequest()->getPost();
-                    $id = $formData['front_menu_id'];
-                    unset($formData['front_menu_id']);
+                    $id = $formData['menu_id'];
+                    unset($formData['menu_id']);
                     unset($formData['submit']);
 
                     $menuModel->update($formData, $id);
