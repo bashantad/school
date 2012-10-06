@@ -19,14 +19,13 @@
         </script>
     </head>
     <body>
-        <?php // echo Zend_Auth::getInstance()->getIdentity()->full_name; ?>
-        <div id="container">
-            <div id="top-navigation">
+        <div id="top-navigation">
+            <div id="header-nav">
                 <ul class="nav">
                     <li><a href="<?php echo $this->baseUrl() . '/admin/student/list'; ?>">Students</a></li>
                     <li><a href="<?php echo $this->baseUrl() . '/admin/staff/list'; ?>">Staff</a></li>
                     <li><a href="<?php echo $this->baseUrl() . '/admin/subject/list'; ?>">Subjects</a></li>
-                    <li><a href="<?php echo $this->baseUrl(). '/admin/examtype/list'; ?>">Exam Type</a></li>
+                    <li><a href="<?php echo $this->baseUrl() . '/admin/examtype/list'; ?>">Exam Type</a></li>
                     <li><a href="<?php echo $this->baseUrl() . '/admin/news/list'; ?>">News feed</a></li>
                     <li><a href="<?php echo $this->baseUrl() . '/admin/image/list'; ?>">Image</a></li>
                     <li><a href="<?php echo $this->baseUrl() . '/admin/gallery/list'; ?>">Gallery</a></li>
@@ -38,7 +37,9 @@
                         ?>
                     </li>    
                 </ul>
-            </div>
+            </div>      
+        </div>
+        <div id="container">
             <div class="flash-messages">
                 <?php
                 $flashMessenger = $this->flashMessages();
@@ -48,6 +49,11 @@
 
             <div id="application-content">
                 <?php echo $this->layout()->content; ?>
+            </div>
+        </div>
+        <div id="footer-wrapper">
+            <div id="footer-nav">
+            Copyright (c) Fourfox Inc. 2012
             </div>
         </div>
     </body>

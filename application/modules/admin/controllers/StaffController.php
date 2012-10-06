@@ -87,9 +87,11 @@ class Admin_StaffController extends Zend_Controller_Action {
         $grid->setImagesUrl("$baseUrl/grid/");
         $editColumn = new Bvb_Grid_Extra_Column();
         $editColumn->setPosition('right')->setName('Edit')->setDecorator("<a href=\"$baseUrl/admin/staff/edit/id/{{staff_id}}\">Edit</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{staff_id}}\"/>");
+        $detailColumn = new Bvb_Grid_Extra_Column();
+        $detailColumn->setPosition('right')->setName('Detail')->setDecorator("<a href=\"$baseUrl/admin/staff/detail/id/{{staff_id}}\">Detail</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{staff_id}}\"/>");
         $deleteColumn = new Bvb_Grid_Extra_Column();
-        $deleteColumn->setPosition('right')->setName('Delete')->setDecorator("<a class=\"delete-data\" href=\"$baseUrl/admin/staff/delete/id/{{student_id}}\">Delete</a>");
-        $grid->addExtraColumns($editColumn, $deleteColumn);
+        $deleteColumn->setPosition('right')->setName('Delete')->setDecorator("<a class=\"delete-data\" href=\"$baseUrl/admin/staff/delete/id/{{staff_id}}\">Delete</a>");
+        $grid->addExtraColumns($detailColumn, $editColumn, $deleteColumn);
         $grid->updateColumn('staff_id', array('hidden' => true));
         $grid->updateColumn('del', array('hidden' => true));
         $grid->setRecordsPerPage(20);
@@ -110,16 +112,15 @@ class Admin_StaffController extends Zend_Controller_Action {
         $menus = array();
         $menuModel = new Admin_Model_Staff();
         $allMenus = $menuModel->listAll();
-
+        $i = 0;
         foreach ($allMenus as $menu):
+            $i++;
             $data = array();
+            $data['sn'] = $i;
             $data['staff_id'] = $menu['staff_id'];
             $data['full_name'] = $menu['full_name'];
             $data['phone'] = $menu['phone'];
-            $data['address'] = $menu['address'];
-            $data['email'] = $menu['email'];
             $data['position'] = $menu['position'];
-            $data['joined_date'] = $menu['joined_date'];
             $menus[] = $data;
         endforeach;
         return $menus;

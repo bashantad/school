@@ -24,13 +24,13 @@ class Admin_Form_StudentForm extends Zend_Form {
                      'Female' => 'Female',
         );
         
-        $sex = new Zend_Form_ELement_Select('sex');
+        $sex = new Zend_Form_Element_Select('sex');
         $sex->setLabel("Sex")
             ->addMultiOptions($option)
             ->setAttribs(array('class' => 'form-select'))
             ->setRequired(true);
         
-        $dob = new Zend_Form_ELement_Text('dob');
+        $dob = new Zend_Form_Element_Text('dob');
         $dob->setLabel('Date of Birth*')
             ->setAttribs(array('class' => 'form-select'));
         
