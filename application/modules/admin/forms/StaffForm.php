@@ -48,7 +48,6 @@ class Admin_Form_StaffForm extends Zend_Form {
             $position,
             $joindate,
             $submit));
-
     }
 
 }

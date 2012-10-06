@@ -64,7 +64,7 @@ class Admin_Form_ResultaddForm extends Zend_Form {
                 ->setAttribs(array("class" => "form-select"))
                 ->addMultiOptions($examTypeOptions);
 
-        $fullMarks = new zend_Form_Element_Text("full_marks");
+        $fullMarks = new Zend_Form_Element_Text("full_marks");
         $fullMarks->setLabel("Full Marks")
                 ->setAttribs(array("class" => "form-text"))
                 ->setRequired(true);

@@ -61,15 +61,12 @@
 			<xsd:element name="duration" type="xsd:int" />
 		</xsd:sequence>
 	</xsd:complexType>
-
 	<xsd:complexType name="ConferenceAccStruct">
 		<xsd:sequence>
 			<xsd:element name="billingtype" type="xsd:string" />
 			<xsd:element name="account" type="xsd:string" />
 		</xsd:sequence>
 	</xsd:complexType>
-
-
 	<xsd:complexType name="ScheduleStruct">
 		<xsd:sequence>
 			<xsd:element name="minute" type="xsd:int"/>

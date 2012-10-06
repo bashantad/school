@@ -1,4 +1,3 @@
-
 CREATE TABLE [dbo].[queue](
 	[queue_id] [int] IDENTITY(1,1) NOT NULL,
 	[queue_name] [varchar](100) NOT NULL,
@@ -37,8 +36,3 @@ GO
 
 ALTER TABLE [dbo].[message] CHECK CONSTRAINT [fk_message_queue_id]
 GO
-
-
-
-
-
