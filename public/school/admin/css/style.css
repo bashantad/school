@@ -1,0 +1,83 @@
+/* main styles */
+
+body{
+    background:#cccccc none repeat;
+}
+#container{
+    width: 1060px;
+    margin: 0px auto;
+    background: #FFFFFF;
+    padding: 0px 7px 0px 7px;
+    height: 100%;
+    min-height: 640px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+table, td, th
+{
+    border:1px solid green;
+    border-collapse:collapse;
+}
+td:odd{
+    background:#ccc;
+}
+th
+{
+    background: #cccccc;
+    color:#000;
+}
+#top-navigation{
+    background:#fff;
+    color:#000;
+    height:40px;
+
+    padding-top:5px;
+}
+.nav li{
+    list-style:none;
+    display:inline;
+    font-size:18px;
+    padding:10px;
+}
+.nav li a {
+    text-decoration:none;
+}
+.nav li a:hover{
+    text-decoration: underline;
+}
+#application-content{
+    padding:10px;
+    margin:4px;
+}
+#grid table td{
+    padding: 5px;
+}
+input[type="text"]:hover,input[type="select"]:hover{
+    border:2px solid #888;
+}
+input[type="text"]:active,input[type="select"]:active{
+    border:2px solid #888;
+    background: #F7DFE9;
+}
+.form-select{
+    width:220px;
+}
+#filter_roll_no{
+    width:30px;
+}
+.form-item{
+    padding:5px;
+    width:220px;
+    float:left;
+}
+.marks-wrapper{
+    padding:5px 15px;
+}
+.student-list{
+    width:250px;
+}
+.form-item-wrapper{
+    width:210px;
+    float:left;
+}

@@ -1,0 +1,22 @@
+
+<table align="right" width="100%" border="1px solid black">
+    <tr>
+        <th> Image ID        </th>
+        <th> Gallery Name    </th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <?php foreach ($this->result as $result): ?>
+
+        <tr>
+            <td><?php echo $result['image_id']; ?></td>
+            <td><?php echo $result['gallery_name']; ?></td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'image', 'action' => 'edit', 'id' => $result['image_id'])); ?>">Edit </a>
+            </td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'image', 'action' => 'delete', 'id' => $result['image_id'])); ?>">Delete</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

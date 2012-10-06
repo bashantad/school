@@ -1,0 +1,26 @@
+
+<table align="right" width="100%" border="1px solid black">
+    <tr>
+        <th> Subject ID        </th>
+        <th> Class      </th>
+        <th> Name            </th>
+        <th> Short Name <th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <?php foreach ($this->result as $result): ?>
+
+        <tr>
+            <td><?php echo $result['subject_id']; ?></td>
+            <td><?php echo $result['grade']; ?></td>
+            <td><?php echo $result['name']; ?></td>
+           <td><?php echo $result['short_name']; ?></td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'subject', 'action' => 'edit', 'id' => $result['subject_id'])); ?>">Edit </a>
+            </td>
+            <td>
+                <a href="<?php echo $this->url(array('controller' => 'subject', 'action' => 'delete', 'id' => $result['subject_id'])); ?>">Delete</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
