@@ -136,3 +136,26 @@ input[type="text"]:active,input[type="select"]:active{
     padding:10px;
     color:#005fbf;
 }
+.permitted{
+    background: url("../images/tick-on-white.gif") no-repeat scroll 0 0 transparent;
+    text-decoration: none;
+}
+
+.notpermitted {
+    background: url("../images/cross-on-white.gif") no-repeat scroll 0 0 transparent;
+    text-decoration: none;
+}
+.clear{
+    clear:both;
+}
+#divdropwrapper {
+    background:#CCC;
+    margin:0 auto;
+    padding:10px;
+}
+.form-select{
+    width:100px;
+}
+.desc-wrapper{
+    text-align: justify;
+}

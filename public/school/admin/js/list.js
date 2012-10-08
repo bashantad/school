@@ -1,6 +1,5 @@
 
 $(document).ready(function (){
-    
     $('.permitted,.notpermitted').css('text-indent','-9999px');
     $('input[type="text"]').addClass('form-text').css('height','15px').css('width','100px');
     $('select').addClass('form-select');
@@ -23,14 +22,12 @@ $(document).ready(function (){
         e.preventDefault();
         $that = $(this);
         var siteUrl = $(this).attr("href");
-       console.log(siteUrl);
         $.ajax({
             type: 'POST',
             url: siteUrl+'/format/json',
             dataType: 'json',
             success: function(res){
                 $that.removeClass().addClass(res.permClass);
-            //  $that.html(res.rowStatus);
             }
         });
     });

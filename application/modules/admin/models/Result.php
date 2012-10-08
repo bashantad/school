@@ -116,7 +116,7 @@ class Admin_Model_Result {
                 ->joinLeft(array("e" => "school_examtype"), "ur.examtype_id=e.examtype_id", array("e.*"))
                 ->where("ur.del='N' AND k.roll_no='$rollno' AND ur.grade='$grade'AND ur.year='$year' AND e.examtype_id ='$examtype'");
         $results = $db->fetchAll($select);
-        return $results;
+               return $results;
     }
 
     public function searchAllResults($formData) {

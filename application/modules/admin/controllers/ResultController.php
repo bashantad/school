@@ -26,18 +26,10 @@ class Admin_ResultController extends Zend_Controller_Action {
                         $subjectModel = new Admin_Model_Subject();
                         $subOptions = $subjectModel->getonlySubjects($formData['grade']);
                         $this->view->subjects = $subOptions;
-//                        echo "<pre>";
-//                        print_r($results);
-//                        exit;
                         $this->view->searchResults = $results;
                     } elseif ($formData['roll_no'] != "" && $formData['year'] != "" && $formData['grade'] != "" && $formData['examtype_id'] != "") {
-                        // $formData['student_id'] = $formData['full_name'];
-                        // unset($formData['full_name']);
                         $resultModel = new Admin_Model_Result();
                         $results = $resultModel->searchResultRollWise($formData);
-//                         echo "<pre>";
-//                        print_r($results);
-//                        exit;
                         $this->view->searchoneResult = $results;
                     }
                 }
