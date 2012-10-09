@@ -25,7 +25,7 @@ class Admin_StudentController extends Zend_Controller_Action {
                     $subjectModel = new Admin_Model_Student();
                     $subjectModel->add($formData);
                     $this->_helper->FlashMessenger->addMessage(array("edit" => "Successfully Student Added"));
-                    $this->_helper->redirector('index');
+                    $this->_helper->redirector('list');
                 } catch (Exception $e) {
                     $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
                 }
@@ -52,7 +52,7 @@ class Admin_StudentController extends Zend_Controller_Action {
 
                     $studentModel->update($formData, $id);
                     $this->_helper->FlashMessenger->addMessage(array("edit" => "Successfully Student Edited"));
-                    $this->_helper->redirector('index');
+                    $this->_helper->redirector('list');
                 }
             }
         } catch (Exception $e) {
@@ -69,7 +69,7 @@ class Admin_StudentController extends Zend_Controller_Action {
                 $delete = $this->_getParam('delete');
                 if ('Yes' == $delete) {
                     $studentModel->delete($id);
-                }$this->_helper->redirector("index");
+                }$this->_helper->redirector("list");
             } catch (Exception $e) {
                 $this->view->message = $e->getMessage();
             }
@@ -123,6 +123,14 @@ class Admin_StudentController extends Zend_Controller_Action {
             $menus[] = $data;
         endforeach;
         return $menus;
+    }
+    public function detailAction(){
+        $id = $this->_getParam('id', 0);
+        $studentModel = new Admin_Model_Student();
+        $data = $studentModel->getDetailById($id);
+        $this->view->result = $data;
+       // var_dump($data);exit;
+        
     }
 
 }

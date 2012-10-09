@@ -1,0 +1,52 @@
+<?php $this->headLink()->appendStylesheet($this->baseUrl() . "/school/admin/css/table.css"); ?> 
+<table id="CSS_Table">
+    <tr>
+        <th colspan="2"> Detail Information Of The Students</th>
+        <th width="10"> <a style="text-decoration:none" href="<?php echo $this->url(array('controller' => 'student', 'action' => 'list')); ?>">Back</a></th>  
+    </tr>
+    <tr>
+        <th> Student ID</th>
+        <td><?php echo $this->result['student_id']; ?></td>
+
+    </tr>
+    <tr>
+        <th> Roll No</th>
+        <td><?php echo $this->result['roll_no']; ?></td>
+    </tr>
+    <tr>
+        <th> Full Name</th>
+        <td><?php echo $this->result['full_name']; ?></td>
+    </tr>
+    <tr>
+        <th> Sex </th>
+        <td><?php echo $this->result['sex']; ?></td>
+    </tr>
+    <tr>
+        <th> Date of Birth </th>
+        <td><?php echo $this->result['dob']; ?></td>
+    </tr>
+    <tr>
+        <th> Email </th>
+        <td><?php echo $this->result['email']; ?></td>
+    </tr>
+    <tr>
+        <th> Phone </th>
+        <td><?php echo $this->result['phone']; ?></td>
+    </tr>
+    <tr>
+        <th> Guardian Name </th>
+        <td><?php echo $this->result['guardian_name']; ?></td>
+    </tr>
+    <tr>
+        <th> Year </th>
+        <td><?php echo $this->result['year']; ?></td>
+    </tr>
+    <tr>
+        <th> Class </th>
+        <td><?php echo $this->result['grade']; ?></td>
+    </tr>
+    <tr>
+        <th> Section </th>
+        <td><?php echo $this->result['section']; ?></td>
+    </tr>
+</table>

@@ -1,29 +1,27 @@
 <?php
 
-class Admin_MenuController extends Zend_Controller_Action
-{
+class Admin_MenuController extends Zend_Controller_Action {
 
-    public function init()
-    {
-       $ajaxContext = $this->_helper->getHelper('AjaxContext');
+    public function init() {
+        $ajaxContext = $this->_helper->getHelper('AjaxContext');
         $ajaxContext->addActionContext('delete', 'json')
                 ->addActionContext('status', 'json')
                 ->initContext();
     }
 
-    public function indexAction()
-    {
-       $menuModel = new Admin_Model_Menu();
+    public function indexAction() {
+        $menuModel = new Admin_Model_Menu();
         $this->view->result = $menuModel->getAll();
     }
-     public function addAction() {
+
+    public function addAction() {
         $form = new Admin_Form_MenuForm();
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)) {
                 unset($formData['submit']);
-               // unset($formData["parent_menu_id"]);
+                // unset($formData["parent_menu_id"]);
                 try {
                     $menuModel = new Admin_Model_Menu();
                     $menuModel->add($formData);
@@ -34,6 +32,7 @@ class Admin_MenuController extends Zend_Controller_Action
             }
         }
     }
+
     public function editAction() {
 
         $form = new Admin_Form_MenuForm();
@@ -59,7 +58,8 @@ class Admin_MenuController extends Zend_Controller_Action
             $this->view->message = $e->getMessage();
         }
     }
-     public function deleteAction() {
+
+    public function deleteAction() {
         $id = $this->_getParam('id', 0);
         $resultModel = new Admin_Model_Menu();
         $this->view->id = $id;
@@ -74,7 +74,8 @@ class Admin_MenuController extends Zend_Controller_Action
             }
         }
     }
-     public function statusAction() {
+
+    public function statusAction() {
         $id = $this->_getParam('id');
         $transportModel = new Admin_Model_Menu();
         $rowStatus = $transportModel->changeStatus($id);
@@ -84,6 +85,13 @@ class Admin_MenuController extends Zend_Controller_Action
         $this->view->saja = "hello";
     }
 
+    public function contentSearchAction() {
+        
+    }
+
+    public function navigationAction() {
+        
+    }
 
 }
 

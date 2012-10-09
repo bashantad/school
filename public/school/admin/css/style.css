@@ -116,11 +116,11 @@ input[type="text"]:active,input[type="select"]:active{
 }
 .dashboard-item{
     border: 1px solid #005FBF;
-    padding:50px 10px;
+    padding:35px 10px;
     text-align: center;
     margin:15px;
-    width:280px;
-    height:50px;
+    width:200px;
+    height:40px;
     float:left;
     background: #ccc;
     -webkit-border-radius: 10px;
@@ -132,7 +132,7 @@ input[type="text"]:active,input[type="select"]:active{
 }
 .dashboard-item a{
     text-decoration: none;
-    font-size:30px;
+    font-size:25px;
     padding:10px;
     color:#005fbf;
 }
@@ -149,13 +149,50 @@ input[type="text"]:active,input[type="select"]:active{
     clear:both;
 }
 #divdropwrapper {
-    background:#CCC;
+    background:-moz-linear-gradient(center top , #005FBF 5%, #003F7F 100%) repeat scroll 0 0 #005FBF;
     margin:0 auto;
     padding:10px;
+    color:#fff;
 }
 .form-select{
     width:100px;
 }
 .desc-wrapper{
     text-align: justify;
+}
+.student-info{
+    font-size:18px;
+    font-weight: bold;
+    padding:5px;
+}
+.info-item{
+    width:340px;
+    float:left;
+}
+#roll-number{
+    width:50px;
+}
+.form-long-select{
+    width:200px;
+    background: #ccc;
+}
+.search-item-wrapper{
+    width:250px;
+    text-align:center;
+    float:left;
+}
+.search-item-wrapper label{
+    padding:0px 15px;
+    float:left;
+}
+.marks-add-wrapper{
+    padding:6px;
+    margin:6px;
+    font-size:20px;
+    font-weight:bold;
+    float:left;
+}
+#dashboard{
+    overflow:auto;
+    padding:10px;
 }

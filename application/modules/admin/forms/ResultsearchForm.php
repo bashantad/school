@@ -10,7 +10,7 @@ class Admin_Form_ResultSearchForm extends Zend_Form {
         $examtypeModel = new Admin_Model_Examtype();
         $examTypeOptions = $examtypeModel->getexamType();
         $yearOption = array();
-        for ($i = 2000; $i < 2020; $i++) {
+        for ($i = 2010; $i < 2020; $i++) {
             $yearOption[$i] = $i;
         }
         //year
@@ -18,24 +18,24 @@ class Admin_Form_ResultSearchForm extends Zend_Form {
         $year->setLabel("Year")
                 ->addMultiOptions($yearOption)
                 ->setRequired(true)
-                ->setAttribs(array('class' => 'form-select', 'id' => ''));
+                ->setAttribs(array('class' => 'form-select'));
         //grade
         $grade = new Zend_Form_Element_Select("grade");
         $grade->setLabel("Grade")
                 ->addMultiOptions($gradeOptions)
                 ->setRequired(true)
-                ->setAttribs(array('class' => 'form-select', 'id' => 'class'));
+                ->setAttribs(array('class' => 'form-select'));
         //section
         $section = new Zend_Form_Element_Select("section");
         $section->setLabel("Section")
                 ->addMultiOptions($sectionOptions)
                 ->setRequired(true)
-                ->setAttribs(array('class' => 'feilds-select', 'id' => ''));
+                ->setAttribs(array('class' => 'form-select', 'id' => 'fields-select'));
         //roll no
         $rollNo = new Zend_Form_Element_Text("roll_no");
         $rollNo->setLabel("Roll No")
                 ->addValidator('NotEmpty', true, array("messages" => "Roll Number can't be empty"))
-                ->setAttribs(array('class' => 'feilds-text', 'id' => 'rollnumber'));
+                ->setAttribs(array('id' => 'roll-number'));
         //exam type
         $examType = new Zend_Form_Element_Select("examtype_id");
         $examType->setLabel("Exam Type")

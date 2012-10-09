@@ -71,6 +71,15 @@ class Admin_Model_Image {
         return $results;
     }
 
+    public function fetchImage($id) {
+        $db = $this->getDbTable()->getDefaultAdapter();
+        $select = $db->select();
+        $select->from(array("i" => "school_image"), array("i.*"))
+                ->where($id);
+        $results = $db->fetchAll($select);
+        return $results;
+    }
+
 }
 
 ?>

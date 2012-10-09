@@ -3,6 +3,8 @@
 class Admin_Form_ImageForm extends Zend_Form {
 
     public function init() {
+         $this->setAttrib('enctype', 'multipart/form-data');
+         //$this->setMethod('post');
 
         $imageID = new Zend_Form_Element_Hidden("image_id");
 
@@ -14,11 +16,12 @@ class Admin_Form_ImageForm extends Zend_Form {
                 ->addMultiOptions($option)
                 ->setAttribs(array('class' => 'form-select'));
 
-        $imagename = new Zend_Form_Element_Text("image_name");
+        $imagename = new Zend_Form_Element_File("image_name");
         $imagename->setLabel("Image")
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'))
+                ->setDestination(UPLOAD_PATH)
                 ->setRequired(true);
-
+        
         $submit = new Zend_Form_Element_Submit("submit");
         $submit->setLabel("Submit");
 

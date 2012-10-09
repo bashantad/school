@@ -63,6 +63,16 @@ class Admin_IndexController extends Zend_Controller_Action {
         endforeach;
         return $menus;
     }
+    public function themeAction()
+    {
+        $themeModel = new Admin_Model_Theme();
+        $this->view->themeOptions = $themeModel->listinKeyValue();
+        if($this->getRequest()->isPost()){
+            $themeId = $this->getRequest()->getPost("theme");
+            $themeModel->setActive($themeId);
+            $this->view->theme = $themeId;
+        }
+    }
 
 }
 

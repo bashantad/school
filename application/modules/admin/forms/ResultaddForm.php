@@ -16,7 +16,7 @@ class Admin_Form_ResultaddForm extends Zend_Form {
         $resultId = new Zend_Form_Element_Hidden("result_id");
         $resultId->setBelongsTo("students[{$index}]");
         $studentId = new Zend_Form_Element_Hidden("student_id");
-        $studentId->setAttribs(array("class" => "form-text booking-full-name"))
+        $studentId->setAttribs(array("class" => "form-text"))
                 ->setBelongsTo("students[{$index}]");
 
         $marks = new Zend_Form_Element_Text("marks");
@@ -58,10 +58,10 @@ class Admin_Form_ResultaddForm extends Zend_Form {
         $grade = new Zend_Form_Element_Hidden("grade");
         $subjectId = new Zend_Form_Element_Select("subject_id");
         $subjectId->setLabel("Subject")
-                ->setAttribs(array("class" => "form-select"));
+                ->setAttribs(array("class" => "form-long-select"));
         $examType = new Zend_Form_Element_Select("examtype_id");
         $examType->setLabel("Exam Type")
-                ->setAttribs(array("class" => "form-select"))
+                ->setAttribs(array("class" => "form-long-select"))
                 ->addMultiOptions($examTypeOptions);
 
         $fullMarks = new Zend_Form_Element_Text("full_marks");
@@ -84,7 +84,7 @@ class Admin_Form_ResultaddForm extends Zend_Form {
             'Errors',
             array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'clear input-wrapper')),
             array('Label', array()),
-            array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'form-item'))
+            array(array('row' => 'HtmlTag'), array('tag' => 'div', 'class' => 'marks-add-wrapper'))
         ));
         $grade->setDecorators(array(
             'viewHelper',
