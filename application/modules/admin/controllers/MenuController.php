@@ -42,6 +42,7 @@ class Admin_MenuController extends Zend_Controller_Action {
         $data = $menuModel->getDetailById($id);
         $form->populate($data);
         $this->view->form = $form;
+        $this->view->id = $id;
         try {
             if ($this->getRequest()->isPost()) {
                 if ($form->Valid($this->getRequest()->getPost())) {
@@ -89,8 +90,70 @@ class Admin_MenuController extends Zend_Controller_Action {
         
     }
 
-    public function navigationAction() {
-        
+    public function contentAction() {
+        $menuModel = new Admin_Model_Menu();
+        $this->view->result = $menuModel->getAll();
+    }
+
+    public function editContentAction() {
+        $form = new Admin_Form_NavigationForm();
+        $form->submit->setLabel("Save");
+        $menuModel = new Admin_Model_Menu();
+        $id = $this->_getParam('id', 0);
+        $data = $menuModel->getDetailById($id);
+        $form->populate($data);
+        $this->view->form = $form;
+         $this->view->id = $id;
+        try {
+            if ($this->getRequest()->isPost()) {
+                if ($form->Valid($this->getRequest()->getPost())) {
+                    $formData = $this->getRequest()->getPost();
+                    $id = $formData['menu_id'];
+                    unset($formData['menu_id']);
+                    unset($formData['submit']);
+
+                    $menuModel->update($formData, $id);
+                    $this->_helper->redirector('content');
+                }
+            }
+        } catch (Exception $e) {
+            $this->view->message = $e->getMessage();
+        }
+    }
+
+    public function addContentAction() {
+        $form = new Admin_Form_NavigationForm();
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            if ($form->isValid($formData)) {
+                unset($formData['submit']);
+                // unset($formData["parent_menu_id"]);
+                try {
+                    $menuModel = new Admin_Model_Menu();
+                    $menuModel->add($formData);
+                    $this->_helper->redirector('content');
+                } catch (Exception $e) {
+                    $this->view->message = $e->getMessage();
+                }
+            }
+        }
+    }
+
+    public function deleteContentAction() {
+        $id = $this->_getParam('id', 0);
+        $resultModel = new Admin_Model_Menu();
+        $this->view->id = $id;
+        if ($this->getRequest()->isPost()) {
+            try {
+                $delete = $this->_getParam('delete');
+                if ('Yes' == $delete) {
+                    $resultModel->delete($id);
+                }$this->_helper->redirector("content");
+            } catch (Exception $e) {
+                $this->view->message = $e->getMessage();
+            }
+        }
     }
 
 }
