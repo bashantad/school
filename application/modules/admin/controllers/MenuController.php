@@ -103,7 +103,7 @@ class Admin_MenuController extends Zend_Controller_Action {
         $data = $menuModel->getDetailById($id);
         $form->populate($data);
         $this->view->form = $form;
-         $this->view->id = $id;
+        $this->view->id = $id;
         try {
             if ($this->getRequest()->isPost()) {
                 if ($form->Valid($this->getRequest()->getPost())) {
@@ -154,6 +154,13 @@ class Admin_MenuController extends Zend_Controller_Action {
                 $this->view->message = $e->getMessage();
             }
         }
+    }
+
+    public function detailAction() {
+        $id = $this->_getParam('id', 0);
+        $studentModel = new Admin_Model_Menu();
+        $data = $studentModel->getDetailById($id);
+        $this->view->result = $data;
     }
 
 }

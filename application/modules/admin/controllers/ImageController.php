@@ -58,6 +58,7 @@ class Admin_ImageController extends Zend_Controller_Action {
         $id = $this->_getParam('id', 0);
         $data = $imageModel->getDetailById($id);
         $form->populate($data);
+        $imageName = $data["image_name"];
         $this->view->form = $form;
         try {
             if ($this->getRequest()->isPost()) {
@@ -84,6 +85,8 @@ class Admin_ImageController extends Zend_Controller_Action {
                     }
 
                     $imageModel->update($formData, $id);
+                    $path = BASE_PATH . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "school" . DIRECTORY_SEPARATOR . "admin" . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . $imageName;
+                     unlink($path);
                     $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Image edited"));
                     $this->_helper->redirector('index');
                 }
@@ -101,6 +104,9 @@ class Admin_ImageController extends Zend_Controller_Action {
             try {
                 $delete = $this->_getParam('delete');
                 if ('Yes' == $delete) {
+                    $result = $imageModel->getDetailById($id);
+                    $path = BASE_PATH . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . "school" . DIRECTORY_SEPARATOR . "admin" . DIRECTORY_SEPARATOR . "uploads" . DIRECTORY_SEPARATOR . $result['image_name'];
+                    unlink($path);
                     $imageModel->delete($id);
                 }$this->_helper->redirector("index");
             } catch (Exception $e) {
@@ -123,7 +129,7 @@ class Admin_ImageController extends Zend_Controller_Action {
         $editColumn->setPosition('right')->setName('Edit')->setDecorator("<a href=\"$baseUrl/admin/image/edit/id/{{image_id}}\">Edit</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{image_id}}\"/>");
         $deleteColumn = new Bvb_Grid_Extra_Column();
         $deleteColumn->setPosition('right')->setName('Delete')->setDecorator("<a class=\"delete-data\" href=\"$baseUrl/admin/image/delete/id/{{image_id}}\">Delete</a>");
-        $grid->addExtraColumns($imageColumn,$editColumn, $deleteColumn);
+        $grid->addExtraColumns($imageColumn, $editColumn, $deleteColumn);
         $grid->updateColumn('image_id', array('hidden' => true));
         $grid->updateColumn('image_name', array('hidden' => true));
         $grid->updateColumn('del', array('hidden' => true));

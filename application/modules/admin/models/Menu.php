@@ -119,7 +119,7 @@ class Admin_Model_Menu {
                 $url = "/" . $v['controller'] . '/' . $v['action'];
             } else {
                 $title = str_replace(" ", "_", $v['title']);
-                $url = "/index/index/content/" . $title . '-' . base64_encode(base64_encode(base64_encode($v['menu_id'].'-'.$title)));
+                $url = "/index/content/display/" . $title . '-' . base64_encode(base64_encode(base64_encode($v['menu_id'].'-'.$title)));
             }
             $url = Zend_Controller_Front::getInstance()->getBaseUrl() . $url;
             $html .= "<li class='sf-parent' ><a href=\"$url\">" . $v['title'] . "</a>";
