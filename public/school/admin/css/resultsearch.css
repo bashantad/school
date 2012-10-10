@@ -76,9 +76,9 @@ body {
 
 table
 {
-border-collapse:collapse;
-border-radius:5px;
-alignment-baseline:baseline;
+    border-collapse:collapse;
+    border-radius:5px;
+    alignment-baseline:baseline;
 
 }
 
@@ -91,3 +91,54 @@ th
     background-color:#666;
     color:white;
 }  
+.image_field{
+
+    border: 1px solid #005FBF;
+    padding:35px 10px;
+    text-align: center;
+    margin:15px;
+    width:450px;
+    height:450px;
+    float:left;
+    background: #ccc;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 7px 7px 5px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    7px 7px 5px rgba(50, 50, 50, 0.75);
+    box-shadow:         7px 7px 5px rgba(50, 50, 50, 0.75);
+    overflow: auto;
+}
+.field_size{
+    width:440px;
+    height:440px;
+    overflow: auto;
+    padding:10px;
+
+}
+#dashboard{
+    overflow:auto;
+    padding:10px;
+}
+.label-select{
+    width:480px;
+    height: 30px;
+    padding:2px;
+    float:left;
+}
+.desc-wrapper{
+    border:2px dotted #bbb; padding:4px 10px; text-align:justify; 
+}
+label{
+    width:auto;
+}
+.result_data{
+    width: 30px;
+    display: inline;
+    margin: 1px;
+    
+}
+.label-select label{
+    font-size: 20;
+    font-family:cursive;
+}

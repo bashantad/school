@@ -13,32 +13,46 @@ class Admin_ResultController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        $form = new Admin_Form_ResultsearchForm();
+        $form = new Admin_Form_StudentSearchForm();
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ("Search" == $formData['Search']) {
                 if ($form->isValid($formData)) {
                     unset($formData['Search']);
-                    if ($formData['year'] != "" && $formData['grade'] != "" && $formData['examtype_id'] != "" && $formData['roll_no'] == "") {
-                        $resultModel = new Admin_Model_Result();
-                        $results = $resultModel->searchAllResults($formData);
-                        $subjectModel = new Admin_Model_Subject();
-                        $subOptions = $subjectModel->getonlySubjects($formData['grade']);
-                        $this->view->subjects = $subOptions;
-//                        echo "<pre>";
-//                        print_r($results);
-//                        exit;
-                        $this->view->searchResults = $results;
-                    } elseif ($formData['roll_no'] != "" && $formData['year'] != "" && $formData['grade'] != "" && $formData['examtype_id'] != "") {
-                        // $formData['student_id'] = $formData['full_name'];
-                        // unset($formData['full_name']);
-                        $resultModel = new Admin_Model_Result();
-                        $results = $resultModel->searchResultRollWise($formData);
-//                         echo "<pre>";
-//                        print_r($results);
-//                        exit;
-                        $this->view->searchoneResult = $results;
+                    $studentModel = new Admin_Model_Student();
+                    $results = $studentModel->search($formData);
+                    $subjectModel = new Admin_Model_Subject();
+                    $subOptions = $subjectModel->getSubjects($formData['grade']);
+                    $addForm = new Admin_Form_ResultaddForm(sizeof($results));
+                    $this->view->number = sizeof($results);
+                    $addForm->subject_id->addMultiOptions($subOptions);
+                    $addForm->grade->setValue($formData['grade']);
+                    $addForm->year->setValue($formData['year']);
+                    $this->view->addForm = $addForm;
+                    $this->view->searchResults = $results;
+                    $formData['Search'] = "Search";
+                }
+            }
+            if ("Add" == $formData['Search']) {
+                $addForm = new Admin_Form_ResultaddForm($formData['size_of_students']);
+                unset($formData['size_of_students']);
+                foreach ($formData as $data) {
+                    $resultModel = new Admin_Model_Result();
+                    if (is_array($data)) {
+                        foreach ($data as $row) {
+                            $arr = array();
+                            unset($row['result_id']);
+                            unset($formData['Search']);
+                            $arr = $row;
+                            $arr['grade'] = $formData['grade'];
+                            $arr['subject_id'] = $formData['subject_id'];
+                            $arr['examtype_id'] = $formData['examtype_id'];
+                            // $arr['full_marks'] = $formData['full_marks'];
+                            // $arr['pass_marks'] = $formData['pass_marks'];
+                            $arr['year'] = $formData['year'];
+                            $resultModel->add($arr);
+                        }
                     }
                 }
             }
@@ -117,46 +131,25 @@ class Admin_ResultController extends Zend_Controller_Action {
     }
 
     public function searchAction() {
-        $form = new Admin_Form_StudentSearchForm();
+
+        $form = new Admin_Form_ResultsearchForm();
         $this->view->form = $form;
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ("Search" == $formData['Search']) {
                 if ($form->isValid($formData)) {
                     unset($formData['Search']);
-                    $studentModel = new Admin_Model_Student();
-                    $results = $studentModel->search($formData);
-                    $subjectModel = new Admin_Model_Subject();
-                    $subOptions = $subjectModel->getSubjects($formData['grade']);
-                    $addForm = new Admin_Form_ResultaddForm(sizeof($results));
-                    $this->view->number = sizeof($results);
-                    $addForm->subject_id->addMultiOptions($subOptions);
-                    $addForm->grade->setValue($formData['grade']);
-                    $addForm->year->setValue($formData['year']);
-                    $this->view->addForm = $addForm;
-                    $this->view->searchResults = $results;
-                    $formData['Search'] = "Search";
-                }
-            }
-            if ("Add" == $formData['Search']) {
-                $addForm = new Admin_Form_ResultaddForm($formData['size_of_students']);
-                unset($formData['size_of_students']);
-                foreach ($formData as $data) {
-                    $resultModel = new Admin_Model_Result();
-                    if (is_array($data)) {
-                        foreach ($data as $row) {
-                            $arr = array();
-                            unset($row['result_id']);
-                            unset($formData['Search']);
-                            $arr = $row;
-                            $arr['grade'] = $formData['grade'];
-                            $arr['subject_id'] = $formData['subject_id'];
-                            $arr['examtype_id'] = $formData['examtype_id'];
-                           // $arr['full_marks'] = $formData['full_marks'];
-                           // $arr['pass_marks'] = $formData['pass_marks'];
-                            $arr['year'] = $formData['year'];
-                            $resultModel->add($arr);
-                        }
+                    if ($formData['year'] != "" && $formData['grade'] != "" && $formData['examtype_id'] != "" && $formData['roll_no'] == "") {
+                        $resultModel = new Admin_Model_Result();
+                        $results = $resultModel->searchAllResults($formData);
+                        $subjectModel = new Admin_Model_Subject();
+                        $subOptions = $subjectModel->getonlySubjects($formData['grade']);
+                        $this->view->subjects = $subOptions;
+                        $this->view->searchResults = $results;
+                    } elseif ($formData['roll_no'] != "" && $formData['year'] != "" && $formData['grade'] != "" && $formData['examtype_id'] != "") {
+                        $resultModel = new Admin_Model_Result();
+                        $results = $resultModel->searchResultRollWise($formData);
+                        $this->view->searchoneResult = $results;
                     }
                 }
             }

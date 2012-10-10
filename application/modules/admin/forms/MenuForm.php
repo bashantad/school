@@ -21,7 +21,7 @@ class Admin_Form_MenuForm extends Zend_Form {
         $parentMenuID = new Zend_Form_Element_Select("parent_menu_id");
         $parentMenuID->setLabel("Parent Menu")
                 ->addMultiOptions($option)
-                ->setAttribs(array('class' => 'form-text'))
+                ->setAttribs(array('class' => 'form-text','id'=>'menu_type'))
                 ->setRequired(true);
 
         $enteredDate = new Zend_Form_Element_Text("entered_date");
@@ -38,6 +38,11 @@ class Admin_Form_MenuForm extends Zend_Form {
         $action = new Zend_Form_Element_Text("action");
         $action->setLabel("Action")
                 ->setAttribs(array('size' => 30, 'class' => 'form-text'));
+        $menutypeOption = array('select'=>"--Select--",'front' => "front",'admin'=>"admin",'superUser'=>"superuser",'dashboard'=>"dashboard");
+        $menuType = new Zend_Form_Element_Select("menu_type");
+        $menuType->setLabel("Menu Type")
+                ->addMultiOptions($menutypeOption)
+                ->setAttribs(array('class' => 'form-text'));
 
 
         $controller = new Zend_Form_Element_Text("controller");
@@ -59,6 +64,7 @@ class Admin_Form_MenuForm extends Zend_Form {
             $content,
             $parentMenuID,
             $action,
+            $menuType,
             $controller,
             $module,
             $submit));

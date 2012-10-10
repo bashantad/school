@@ -16,9 +16,11 @@ class School_Layout_Plugin_Layout extends Zend_Controller_Plugin_Abstract {
             'layoutPath' => BASE_PATH . DIRECTORY_SEPARATOR . 'layouts' . DIRECTORY_SEPARATOR . $this->_school . DIRECTORY_SEPARATOR . $module,
         );
         Zend_Layout::startMvc()->setLayoutPath($options);
-//        if ("admin" == $module && "login" == $controller && "index" == $action) {
-//            Zend_Layout::startMvc()->setLayout("login"); 
-//        } 
+        if ($module == "default") {
+            $themeModel = new Admin_Model_Theme();
+            $active = $themeModel->getActive();
+            Zend_Layout::startMvc()->setLayout($active);
+        }
     }
 
 }

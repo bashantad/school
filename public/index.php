@@ -5,7 +5,9 @@ defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
 defined('BASE_PATH')
     || define('BASE_PATH', realpath(dirname(__FILE__) . '/..'));
-
+// Define path to upload directory
+defined('UPLOAD_PATH')
+    || define('UPLOAD_PATH', realpath(dirname(__FILE__) . '/school/admin/uploads'));
 // Define application environment
 defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development'));

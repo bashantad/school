@@ -8,9 +8,10 @@ class Admin_GalleryController extends Zend_Controller_Action {
             $this->_helper->redirector('index', 'login');
         }
     }
+
     public function indexAction() {
         $galleryModel = new Admin_Model_Gallery();
-        $this->view->result = $galleryModel->getAll();   
+        $this->view->result = $galleryModel->getAll();
     }
 
     public function addAction() {
@@ -24,7 +25,7 @@ class Admin_GalleryController extends Zend_Controller_Action {
                 try {
                     $galleryModel = new Admin_Model_Gallery();
                     $galleryModel->add($formData);
-                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Gallery added"));
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Gallery added"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
                     $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
@@ -51,7 +52,7 @@ class Admin_GalleryController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $galleryModel->update($formData, $id);
-                    $this->_helper->FlashMessenger->addMessage(array("success"=>"Successfully Gallery edited"));
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Gallery edited"));
                     $this->_helper->redirector('index');
                 }
             }
@@ -75,8 +76,8 @@ class Admin_GalleryController extends Zend_Controller_Action {
             }
         }
     }
-    
-     public function listAction() {
+
+    public function listAction() {
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "grid.ini", 'production');
         $grid = Bvb_Grid::factory('Table', $config);
         $data = $this->_listdata();
@@ -91,6 +92,7 @@ class Admin_GalleryController extends Zend_Controller_Action {
         $grid->addExtraColumns($editColumn, $deleteColumn);
         $grid->updateColumn('gallery_id', array('hidden' => true));
         $grid->updateColumn('del', array('hidden' => true));
+        $grid->updateColumn("view_image", array("decorator" => "{{view_image}}", "escape" => true));
         $grid->setRecordsPerPage(20);
         $grid->setPaginationInterval(array(
             5 => 5,
@@ -109,14 +111,22 @@ class Admin_GalleryController extends Zend_Controller_Action {
         $menus = array();
         $menuModel = new Admin_Model_Gallery();
         $allMenus = $menuModel->listAll();
-
+        $baseUrl = Zend_Controller_Front::getInstance()->getBaseUrl();
         foreach ($allMenus as $menu):
             $data = array();
             $data['gallery_id'] = $menu['gallery_id'];
             $data['gallery_name'] = $menu['gallery_name'];
+            $data['view_image'] = "<a href=\"$baseUrl/admin/gallery/gallery-images/id/" . $data['gallery_id'] . "\">" . $menu['gallery_name'] . "</a>";
             $menus[] = $data;
         endforeach;
         return $menus;
+    }
+
+    public function galleryImagesAction() {
+        $id = $this->_getParam('id', 0);
+        $imageModel = new Admin_Model_Image();
+        $result = $imageModel->fetchImage($id);
+        $this->view->result = $result;
     }
 
 }

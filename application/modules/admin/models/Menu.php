@@ -53,7 +53,7 @@ class Admin_Model_Menu {
 
     public function getKeysAndValues() {
         $result = $this->getDbTable()->fetchAll("del='N'");
-        $options = array('' => '--Select--','0'=>'Main Menu');
+        $options = array('' => '--Select--', '0' => 'Main Menu');
         foreach ($result as $result) {
             $options[$result['menu_id']] = $result['title'];
         }
@@ -89,6 +89,47 @@ class Admin_Model_Menu {
         $data = array('sh' => $row['sh']);
         $this->getDbTable()->update($data, 'menu_id = ' . $element_id);
         return $row['sh'];
+    }
+
+    public function fetchHierarchy() {
+        $refs = array();
+        $list = array();
+
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("c" => "school_menu"), array("c.*"))
+                ->where("c.del='N' AND c.sh='Y' ");
+        $results = $db->fetchAll($select);
+        foreach ($results as $data) {
+            $thisref = &$refs[$data['menu_id']];
+            $thisref = $data;
+            if ($data['parent_menu_id'] == 0) {
+                $list[$data['menu_id']] = &$thisref;
+            } else {
+                $refs[$data['parent_menu_id']]['children'][$data['menu_id']] = &$thisref;
+            }
+        }
+        return substr($this->listToUl($list), 20, -7);
+    }
+
+    public function listToUl($arr) {
+        $html = "<ul class = sf-menu>" . PHP_EOL;
+        foreach ($arr as $v) {
+            if ($v['controller']  && $v['action']) {
+                $url = "/" . $v['controller'] . '/' . $v['action'];
+            } else {
+                $title = str_replace(" ", "_", $v['title']);
+                $url = "/index/content/display/" . $title . '-' . base64_encode(base64_encode(base64_encode($v['menu_id'].'-'.$title)));
+            }
+            $url = Zend_Controller_Front::getInstance()->getBaseUrl() . $url;
+            $html .= "<li class='sf-parent' ><a href=\"$url\">" . $v['title'] . "</a>";
+            if (array_key_exists('children', $v)) {
+                $html .= $this->listToUl($v['children']);
+            }
+            $html .= '</li>' . PHP_EOL;
+        }
+        $html .= '</ul>' . PHP_EOL;
+        return $html;
     }
 
 }
