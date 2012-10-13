@@ -11,6 +11,7 @@ class Admin_Form_MenuForm extends Zend_Form {
 
         $title = new Zend_Form_Element_Text("title");
         $title->setLabel("Title")
+                ->setRequired(true)
                 ->setAttribs(array('class' => 'add-form-text'));
 
         $content = new Zend_Form_Element_Textarea("content");
