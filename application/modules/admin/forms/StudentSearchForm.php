@@ -15,17 +15,17 @@ class Admin_Form_StudentSearchForm extends Zend_Form {
         $grade = new Zend_Form_Element_Select("grade");
         $grade->setLabel("Grade")
                 ->addMultiOptions($gradeOptions)
-                ->setAttribs(array('class' => 'form-long-select', 'id' => 'marital'));
+                ->setAttribs(array('class' => 'form-long-select', 'id' => 'grade'));
         //section
         $section = new Zend_Form_Element_Select("section");
         $section->setLabel("Section")
                 ->addMultiOptions($sectionOptions)
-                ->setAttribs(array('class' => 'form-long-select', 'id' => 'marital'));
+                ->setAttribs(array('class' => 'form-long-select', 'id' => 'section'));
         //year
         $year = new Zend_Form_Element_Select("year");
         $year->setLabel("Year")
                 ->addMultiOptions($yearOption)
-                ->setAttribs(array('class' => 'form-long-select', 'id' => 'marital'));
+                ->setAttribs(array('class' => 'form-long-select', 'id' => 'year'));
 
 
         //submit

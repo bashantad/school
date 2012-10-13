@@ -8,7 +8,7 @@ class Admin_Form_GalleryForm extends Zend_Form {
 
         $galleryname = new Zend_Form_Element_Text("gallery_name");
         $galleryname->setLabel("Gallery Name")
-                ->setAttribs(array('size' => 30, 'class' => 'form-text'))
+                ->setAttribs(array( 'class' => 'add-form-text'))
                 ->setRequired(true);
         
         $submit = new Zend_Form_Element_Submit("submit");

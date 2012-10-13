@@ -29,7 +29,6 @@ class Admin_Model_Examtype {
 
     public function add($formData) {
         $lastId = $this->getDbTable()->insert($formData);
-        var_dump($formData);
         if (!$lastId) {
             throw new Exception("Couldn't insert data into database");
         }

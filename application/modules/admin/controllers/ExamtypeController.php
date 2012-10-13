@@ -22,11 +22,18 @@ class Admin_ExamtypeController extends Zend_Controller_Action {
             if ($form->isValid($formData)) {
                 unset($formData['submit']);
                 unset($formData["examtype_id"]);
+                $grades = $formData['grade'];
+                unset($formData['grade']);
                 try {
                     $examtypeModel = new Admin_Model_Examtype();
-                    $examtypeModel->add($formData);
-                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Exam type added"));
-                    $this->_helper->redirector('index');
+                    foreach ($grades as $grade) {
+                        $formData['grade'] = $grade;
+                        $examTypeId = $examtypeModel->add($formData);
+                    }
+                    if ($examTypeId) {
+                        $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully added Exam type "));
+                        $this->_helper->redirector('list');
+                    }
                 } catch (Exception $e) {
                     $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
                 }
@@ -36,7 +43,7 @@ class Admin_ExamtypeController extends Zend_Controller_Action {
 
     public function editAction() {
 
-        $form = new Admin_Form_ExamtypeForm();
+        $form = new Admin_Form_ExamtypeForm(true);
         $form->submit->setLabel("Save");
         $examtypeModel = new Admin_Model_Examtype();
         $id = $this->_getParam('id', 0);
@@ -52,8 +59,8 @@ class Admin_ExamtypeController extends Zend_Controller_Action {
                     unset($formData['submit']);
 
                     $examtypeModel->update($formData, $id);
-                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Exam type edited"));
-                    $this->_helper->redirector('index');
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully updated Exam type."));
+                    $this->_helper->redirector('list');
                 }
             }
         } catch (Exception $e) {
@@ -70,7 +77,7 @@ class Admin_ExamtypeController extends Zend_Controller_Action {
                 $delete = $this->_getParam('delete');
                 if ('Yes' == $delete) {
                     $examtypeModel->delete($id);
-                }$this->_helper->redirector("index");
+                }$this->_helper->redirector("list");
             } catch (Exception $e) {
                 $this->view->message = $e->getMessage();
             }
@@ -121,10 +128,6 @@ class Admin_ExamtypeController extends Zend_Controller_Action {
             $menus[] = $data;
         endforeach;
         return $menus;
-    }
-    public function dashboardAction()
-    {
-        
     }
 
 }

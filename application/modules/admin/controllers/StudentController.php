@@ -3,11 +3,15 @@
 class Admin_StudentController extends Zend_Controller_Action {
 
     public function init() {
+        $ajaxContext = $this->_helper->getHelper('AjaxContext');
+        $ajaxContext->addActionContext('student-filter', 'json')
+                ->initContext();
         /* Initialize action controller here */
         if (!Zend_Auth::getInstance()->hasIdentity()) {
             $this->_helper->redirector('index', 'login');
         }
     }
+
     public function indexAction() {
         $studentModel = new Admin_Model_Student();
         $this->view->result = $studentModel->getAll();
@@ -90,7 +94,7 @@ class Admin_StudentController extends Zend_Controller_Action {
         $detailColumn->setPosition('right')->setName('Detail')->setDecorator("<a href=\"$baseUrl/admin/student/detail/id/{{student_id}}\">Detail</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{student_id}}\"/>");
         $deleteColumn = new Bvb_Grid_Extra_Column();
         $deleteColumn->setPosition('right')->setName('Delete')->setDecorator("<a class=\"delete-data\" href=\"$baseUrl/admin/student/delete/id/{{student_id}}\">Delete</a>");
-        $grid->addExtraColumns($detailColumn,$editColumn, $deleteColumn);
+        $grid->addExtraColumns($detailColumn, $editColumn, $deleteColumn);
         $grid->updateColumn('student_id', array('hidden' => true));
         $grid->updateColumn('del', array('hidden' => true));
         $grid->setRecordsPerPage(20);
@@ -111,7 +115,7 @@ class Admin_StudentController extends Zend_Controller_Action {
         $menus = array();
         $menuModel = new Admin_Model_Student();
         $allMenus = $menuModel->listAll();
-      
+
         foreach ($allMenus as $menu):
             $data = array();
             $data['student_id'] = $menu['student_id'];
@@ -124,13 +128,25 @@ class Admin_StudentController extends Zend_Controller_Action {
         endforeach;
         return $menus;
     }
-    public function detailAction(){
+
+    public function detailAction() {
         $id = $this->_getParam('id', 0);
         $studentModel = new Admin_Model_Student();
         $data = $studentModel->getDetailById($id);
         $this->view->result = $data;
-       // var_dump($data);exit;
-        
+    }
+
+    public function studentFilterAction() {
+        $data = array(
+            'year' => $this->_getParam("year"),
+            'grade' => $this->_getParam("grade"),
+            'section' => $this->_getParam("section"),
+            'del' => 'N'
+        );
+        $studentModel = new Admin_Model_Student();
+        $options = $studentModel->getStudentNames($data);
+        $this->view->results = $options;
+        $this->view->html = $this->view->render("student/student-filter.phtml");
     }
 
 }

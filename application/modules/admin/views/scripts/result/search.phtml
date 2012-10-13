@@ -3,22 +3,12 @@
 $form = $this->form->getElements();
 ?>
 <div id="exam-result-all">
-    <div id="divwrapper">
-        <div id="divheader"></div>
-        <div id="divLine">&nbsp; </div>
-        <div id="divlinks">  
-            <div id="divNav">
-                <ul>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <h2>Search Result of the Students</h2>
     <form action="" method="post"> 
         <div id="divdropwrapper">
             <div class="form-item-wrapper">
                 <label>Year</label>
                 <?php echo $form['year']; ?>
-
             </div>
             <div class="form-item-wrapper">
                 <label>Class</label>
@@ -82,8 +72,7 @@ $form = $this->form->getElements();
             endforeach;
             ?>
         </table>
-    <?php } ?>
-    <?php if ($this->searchoneResult) { ?>
+    <?php } elseif ($this->searchoneResult) { ?>
         <?php
         $first = $this->searchoneResult[0];
         $sum = 0;
@@ -143,11 +132,11 @@ $form = $this->form->getElements();
                 <td>
                     <?php
                     if ($isPassed) {
-                        if ($average <= 45) {
+                        if ($average < 45) {
                             $div = "Third Division";
-                        } elseif ($average <= 60) {
+                        } elseif ($average < 60) {
                             $div = "Second Division";
-                        } elseif ($average <= 80) {
+                        } elseif ($average < 80) {
                             $div = "First Division";
                         } elseif ($average > 80 && $average <= 100) {
                             $div = "Distinction";
@@ -158,6 +147,8 @@ $form = $this->form->getElements();
                 </td>
             </tr>
         </table>
-    <?php } ?>
+    <?php }else{
+        echo "<h3> No result found</h3>";
+    } ?>
 </div> 
 <?php echo $this->headScript()->appendFile($this->baseUrl() . "/school/admin/js/studentautocomplete.js"); ?>

@@ -90,8 +90,14 @@ class Admin_Model_Student {
         return $results;
     }
 
-    public function getStudentName($grade) {
-        $where = "s.del='N'AND s.grade='$grade' ";
+    public function getStudentNames($data = null) {
+        $where = '';
+        if ($data) {
+            foreach ($data as $key => $val) {
+                $where .= "s." . $key . "='" . $val . "' AND ";
+            }
+        }
+        $where .=1;
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select()
                 ->from(array("s" => "school_students"), array("s.*"))
@@ -99,9 +105,8 @@ class Admin_Model_Student {
         $results = $db->fetchAll($select);
         $options = array('' => '--Select--');
         foreach ($results as $result) {
-            $options[$result['student_id']] = $result['full_name'];
+            $options[$result['roll_no'] . "::" . $result['student_id']] = $result['full_name'];
         }
-        //var_dump($options);exit;
         return $options;
     }
 
