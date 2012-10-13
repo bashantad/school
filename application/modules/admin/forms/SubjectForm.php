@@ -13,18 +13,18 @@ class Admin_Form_SubjectForm extends Zend_Form {
 
         $grade = new Zend_Form_Element_Select("grade");
         $grade->setLabel("Grade")
-                ->setAttribs(array('class' => 'form-select'))
+                ->setAttribs(array('class' => 'add-form-select'))
                 ->addMultiOptions($gradeOptions)
                 ->setRequired(true);
 
         $name = new Zend_Form_Element_Text("name");
         $name->setLabel("Name")
-                ->setAttribs(array('size' => 30, 'class' => 'form-text'))
+                ->setAttribs(array( 'class' => 'add-form-text'))
                 ->setRequired(true);
         
         $short_name = new Zend_Form_Element_Text("short_name");
         $short_name->setLabel("Short Name")
-                            ->setAttribs(array('size'=>30, 'class'=>'form-text'));
+                            ->setAttribs(array('size'=>30, 'class'=>'add-form-text'));
 
         $submit = new Zend_Form_Element_Submit("submit");
         $submit->setLabel("Submit");

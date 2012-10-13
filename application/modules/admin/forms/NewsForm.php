@@ -8,12 +8,12 @@ class Admin_Form_NewsForm extends Zend_Form {
 
         $title = new Zend_Form_Element_Text("title");
         $title->setLabel("Title")
-                ->setAttribs(array('size' => 30, 'class' => 'form-text'))
+                ->setAttribs(array( 'class' => 'add-form-text'))
                 ->setRequired(true);
 
         $content = new Zend_Form_Element_Textarea("content");
         $content->setLabel("content")
-                ->setAttribs(array('size' => 30, 'class' => 'form-text'))
+                ->setAttribs(array( 'class' => 'add-form-textarea'))
                 ->setRequired(true);
 
         $submit = new Zend_Form_Element_Submit("submit");

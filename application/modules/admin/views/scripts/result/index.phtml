@@ -2,18 +2,8 @@
 <?php
 $form = $this->form->getElements();
 ?>
-<div id="">
-    <div id="divwrapper">
-        <div id="divheader"></div>
-        <div id="divLine">&nbsp; </div>
-        <div id="divlinks">  
-            <div id="divNav">
-                <ul>
-
-                </ul>
-            </div>
-        </div>
-    </div>
+<div id="exam-result-all">
+    <h2>Search Student to Add Result</h2>
     <form action="" method="post"> 
         <div id="divdropwrapper">
             <div class="search-item-wrapper">
@@ -40,15 +30,13 @@ $form = $this->form->getElements();
         <fieldset>
             <legend><h2>Add Result of Student</h2></legend>
             <form name="result-add" action="" method="post">
-                <input type="hidden" value="<?php echo $this->number; ?>" name="size_of_students" />
+                <input type="hidden" value="<?php echo $_POST['section'] ?>" name="section" />
                 <?php if ($this->searchResults) { ?>
                     <?php $addForm = $this->addForm->getElements(); ?>
                     <?php echo $addForm["subject_id"]; ?>
                     <?php echo $addForm["examtype_id"]; ?>
                     <?php echo $addForm['grade']; ?>
                     <?php echo $addForm['year']; ?>
-                    <?php // echo $addForm['full_marks']; ?>
-                    <?php // echo $addForm['pass_marks']; ?>
                     <div class="clear"></div>
                     <?php $i = 0; ?>
 

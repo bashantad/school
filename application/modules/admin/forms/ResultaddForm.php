@@ -11,8 +11,6 @@ class Admin_Form_ResultaddForm extends Zend_Form {
 
     public function createElements($index) {
         $subForm = new Zend_Form_SubForm();
-
-        //$subjectOption = array('English' => 'english', 'Mathematics' => 'mathenmatics');
         $resultId = new Zend_Form_Element_Hidden("result_id");
         $resultId->setBelongsTo("students[{$index}]");
         $studentId = new Zend_Form_Element_Hidden("student_id");
@@ -23,7 +21,9 @@ class Admin_Form_ResultaddForm extends Zend_Form {
         $marks->setLabel("Marks")
                 ->setAttribs(array('class' => 'form-text', 'id' => 'marital'))
                 ->setBelongsTo("students[{$index}]")
-                ->setRequired(true);
+                ->setRequired(true)
+                ->addValidator('float', true, array('locale' => 'en_US'))
+                ->addValidator('greaterThan', true, array('min' => 0));
 
         $remarks = new Zend_Form_Element_Text("remarks");
         $remarks->setLabel("Remarks")
@@ -38,13 +38,11 @@ class Admin_Form_ResultaddForm extends Zend_Form {
             $remarks);
         $subForm->setLegend("Mark Entry");
         $subForm->addElements($formElements);
-        $subForm->setElementDecorators(array('viewHelper', "Errors"));
+        $subForm->setElementDecorators(array("viewHelper", "Description", "Errors", array()));
         return $subForm;
     }
 
     public function init() {
-        $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "class.ini", "production");
-       // $examTypeOptions = $config->exam_type->toArray();
         $examtypeModel = new Admin_Model_Examtype();
         $examTypeOptions = $examtypeModel->getexamType();
 
@@ -62,22 +60,13 @@ class Admin_Form_ResultaddForm extends Zend_Form {
         $examType = new Zend_Form_Element_Select("examtype_id");
         $examType->setLabel("Exam Type")
                 ->setAttribs(array("class" => "form-long-select"))
-                ->addMultiOptions($examTypeOptions);
-
-        $fullMarks = new Zend_Form_Element_Text("full_marks");
-        $fullMarks->setLabel("Full Marks")
-                ->setAttribs(array("class" => "form-text"))
-                ->setRequired(true);
-
-        $passMarks = new zend_Form_Element_Text("pass_marks");
-        $passMarks->setLabel("Pass Marks")
-                ->setAttribs(array("class" => "form-text"))
+                ->addMultiOptions($examTypeOptions)
                 ->setRequired(true);
 
         $submit = new Zend_Form_Element_Submit("Search");
         $submit->setLabel("Add")
                 ->setAttribs(array("id" => "signin_submit"));
-        $this->addElements(array($subjectId,$examType,$year, $grade, $submit));
+        $this->addElements(array($subjectId, $examType, $year, $grade, $submit));
         $this->setElementDecorators(array(
             'viewHelper',
             'Description',

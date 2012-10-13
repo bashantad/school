@@ -6,7 +6,7 @@ class Admin_Form_ResultSearchForm extends Zend_Form {
         $this->setMethod("post");
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "class.ini", "production");
         $gradeOptions = $config->grade->toArray();
-        $sectionOptions = $config->section->toArray();
+        $sectionOptions =  $config->section->toArray();
         $examtypeModel = new Admin_Model_Examtype();
         $examTypeOptions = $examtypeModel->getexamType();
         $yearOption = array();
@@ -30,24 +30,24 @@ class Admin_Form_ResultSearchForm extends Zend_Form {
         $section->setLabel("Section")
                 ->addMultiOptions($sectionOptions)
                 ->setRequired(true)
-                ->setAttribs(array('class' => 'form-select', 'id' => 'fields-select'));
+                ->setAttribs(array('class' => 'form-select', 'id' => 'section'));
         //roll no
         $rollNo = new Zend_Form_Element_Text("roll_no");
         $rollNo->setLabel("Roll No")
                 ->addValidator('NotEmpty', true, array("messages" => "Roll Number can't be empty"))
-                ->setAttribs(array('id' => 'roll-number'));
+                ->setAttribs(array('id' => 'roll-number','placeholder'=>'Rollno'));
         //exam type
         $examType = new Zend_Form_Element_Select("examtype_id");
         $examType->setLabel("Exam Type")
                 ->setRequired(true)
-                ->setAttribs(array('class' => 'form-select', 'id' => 'marital'))
+                ->setAttribs(array('class' => 'form-select', 'id' => 'exam_type'))
                 ->addMultiOptions($examTypeOptions);
         $studentModel = new Admin_Model_Student();
-        $studentNameOptions = $studentModel->searchAllNames();
+        $studentNameOptions = $studentModel->getStudentNames();
         //student name
         $studentName = new Zend_Form_Element_Select("full_name");
         $studentName->setLabel("Students Name")
-                ->setAttribs(array('class' => 'form-select', 'id' => 'studentsearch'))
+                ->setAttribs(array('class' => 'form-select', 'id' => 'student-name'))
                 ->addMultiOptions($studentNameOptions);
 
 

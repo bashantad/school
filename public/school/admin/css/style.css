@@ -51,8 +51,8 @@ body{
 .nav li{
     list-style:none;
     display:inline;
-    font-size:20px;
-    padding:10px;
+    font-size:18px;
+    padding:8px;
 }
 .nav li a {
     text-decoration:none;
@@ -201,4 +201,30 @@ input[type="text"]:active,input[type="select"]:active{
 #dashboard{
     overflow:auto;
     padding:10px;
+}
+.error,.success,.info,.warning{
+    padding:10px 30px;
+    font-size:16px;
+    font-style: italic;
+    border: 2px dotted #ccc;
+}
+.error{
+    color: #D8000C;
+    background-color: #FFBABA;
+    /*    background-image: url('../images/error.png');*/
+}
+.success{
+    color: #4F8A10;
+    background-color: #DFF2BF;
+    /*    background-image:url('../images/success.png');*/
+}
+.info {
+    color: #00529B;
+    background-color: #BDE5F8;
+    /*    background-image: url('../images/info.png');*/
+}
+.warning{
+    color: #9F6000;
+    background-color: #FEEFB3;
+    /*    background-image: url('../images/warning.png');*/
 }
