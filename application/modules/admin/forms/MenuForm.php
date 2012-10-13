@@ -21,24 +21,23 @@ class Admin_Form_MenuForm extends Zend_Form {
         $parentMenuID = new Zend_Form_Element_Select("parent_menu_id");
         $parentMenuID->setLabel("Parent Menu")
                 ->addMultiOptions($option)
-                ->setAttribs(array('class' => 'add-form-text','id'=>'menu_type'))
-                ->setRequired(true);
+                ->setAttribs(array('class' => 'add-form-text', 'id' => 'menu_type'));
 
         $enteredDate = new Zend_Form_Element_Text("entered_date");
         $enteredDate->setLabel("Entered Date")
-                ->setAttribs(array( 'class' => 'form-date'))
+                ->setAttribs(array('class' => 'form-date'))
                 ->setRequired(true);
 
         $updateDate = new Zend_Form_Element_Text("update_date");
         $updateDate->setLabel("Updated Date")
-                ->setAttribs(array( 'class' => 'form-date'))
+                ->setAttribs(array('class' => 'form-date'))
                 ->setRequired(true);
 
 
         $action = new Zend_Form_Element_Text("action");
         $action->setLabel("Action")
-                ->setAttribs(array( 'class' => 'add-form-text'));
-        $menutypeOption = array('select'=>"--Select--",'front' => "front",'admin'=>"admin",'superUser'=>"superuser",'dashboard'=>"dashboard");
+                ->setAttribs(array('class' => 'add-form-text'));
+        $menutypeOption = array('select' => "--Select--", 'front' => "front", 'admin' => "admin", 'superUser' => "superuser", 'dashboard' => "dashboard");
         $menuType = new Zend_Form_Element_Select("menu_type");
         $menuType->setLabel("Menu Type")
                 ->addMultiOptions($menutypeOption)
@@ -47,12 +46,12 @@ class Admin_Form_MenuForm extends Zend_Form {
 
         $controller = new Zend_Form_Element_Text("controller");
         $controller->setLabel("Controller ")
-                ->setAttribs(array( 'class' => 'form-date'));
+                ->setAttribs(array('class' => 'form-date'));
 
 
         $module = new Zend_Form_Element_Text("module");
         $module->setLabel("Module")
-                ->setAttribs(array( 'class' => 'form-date'));
+                ->setAttribs(array('class' => 'form-date'));
 
 
         $submit = new Zend_Form_Element_Submit("submit");

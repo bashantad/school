@@ -94,7 +94,6 @@ class Admin_Model_Menu {
     public function fetchHierarchy() {
         $refs = array();
         $list = array();
-
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select()
                 ->from(array("c" => "school_menu"), array("c.*"))
@@ -115,11 +114,11 @@ class Admin_Model_Menu {
     public function listToUl($arr) {
         $html = "<ul class = sf-menu>" . PHP_EOL;
         foreach ($arr as $v) {
-            if ($v['controller']  && $v['action']) {
+            if ($v['controller'] && $v['action']) {
                 $url = "/" . $v['controller'] . '/' . $v['action'];
             } else {
                 $title = str_replace(" ", "_", $v['title']);
-                $url = "/index/content/display/" . $title . '-' . base64_encode(base64_encode(base64_encode($v['menu_id'].'-'.$title)));
+                $url = "/index/content/display/" . $title . '-' . base64_encode(base64_encode(base64_encode($v['menu_id'] . '-' . $title)));
             }
             $url = Zend_Controller_Front::getInstance()->getBaseUrl() . $url;
             $html .= "<li class='sf-parent' ><a href=\"$url\">" . $v['title'] . "</a>";
@@ -130,6 +129,23 @@ class Admin_Model_Menu {
         }
         $html .= '</ul>' . PHP_EOL;
         return $html;
+    }
+
+    public function searchContents($content) {
+        $where = "c.del='N' AND c.sh='Y' AND ";
+        if ($content['menu_type'] == 'content') {
+            $where .= "c.title LIKE '%" . $content['keyword'] . "' OR c.content LIKE '%" . $content['keyword'] . "' AND c.menu_type='front'";
+        } elseif ($content['menu_type'] == 'menu') {
+            $where .= "c.title LIKE '%" . $content['keyword'] . "' OR c.controller LIKE '%" . $content['keyword'] . "' OR c.action LIKE '%" . $content['keyword'] . "' OR c.content LIKE '%" . $content['keyword'] . "' AND c.menu_type<>'front' AND c.menu_type<>'superUser'";
+        }
+       
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("c" => "school_menu"), array("c.*"))
+                ->where($where);
+       // echo $select->__toString();exit;
+        $results = $db->fetchAll($select);
+        return $results;
     }
 
 }

@@ -228,3 +228,36 @@ input[type="text"]:active,input[type="select"]:active{
     background-color: #FEEFB3;
     /*    background-image: url('../images/warning.png');*/
 }
+#search-all-content{
+    width:550px;
+    font-size:25px;
+    padding:6px;
+    height:50px;
+}
+#search-submit{
+    background: -moz-linear-gradient(center top , #005FBF 5%, #003F7F 100%) repeat scroll 0 0 #005FBF;
+    border-radius: 5px 5px 5px 5px;
+    color: #FFFFFF;
+    font-size: 25px;
+    height: 50px;
+    width: 200px;
+}
+#search-field-wrapper,#search-submit-wrapper,#search-type-wrapper{
+    padding:10px;
+    float:left;
+}
+#menu-type{
+    width:150px;
+    height:50px;
+    font-size:25px;
+}
+.search-result-wrapper{
+    padding:6px;
+    font-size:15px;
+}
+.search-result-wrapper a{
+    text-decoration: none;
+}
+.search-result-wrapper a:hover{
+    text-decoration: underline;
+}

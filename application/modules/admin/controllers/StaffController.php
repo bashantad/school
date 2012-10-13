@@ -126,6 +126,11 @@ class Admin_StaffController extends Zend_Controller_Action {
         return $menus;
     }
 
+    public function attendanceAction() {
+        $staffModel = new Admin_Model_Staff();
+        $this->view->results = $staffModel->listAll();
+    }
+
 }
 ?>
 

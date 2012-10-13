@@ -87,7 +87,7 @@ class Admin_MenuController extends Zend_Controller_Action {
     }
 
     public function contentSearchAction() {
-        
+        $title = $this->_getParam("searchtext");
     }
 
     public function contentAction() {

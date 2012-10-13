@@ -149,6 +149,56 @@ class Admin_StudentController extends Zend_Controller_Action {
         $this->view->html = $this->view->render("student/student-filter.phtml");
     }
 
+    public function upgradeAction() {
+        $form = new Admin_Form_StudentSearchForm();
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            $data = array(
+                'year' => $formData['year'],
+                'grade' => $formData['grade'],
+                'section' => $formData['section']
+            );
+            $a = $form->isValid($formData);
+            if ($a) {
+                $studentModel = new Admin_Model_Student();
+                $results = $studentModel->search($data);
+                $this->view->searchResults = $results;
+            }
+            if (array_key_exists('student', $formData)) {
+                $data = array(
+                    'year' => $formData['year'] + 1,
+                    'grade' => $this->_helper->upgradeGrade($formData['grade'])
+                );
+                $studentModel->upgrade($formData['student'], $data);
+                $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully upgraded class"));
+                $this->_helper->redirector("list");
+            }
+        }
+    }
+
+    public function attendanceAction() {
+        $form = new Admin_Form_StudentSearchForm();
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            $data = array(
+                'year' => $formData['year'],
+                'grade' => $formData['grade'],
+                'section' => $formData['section']
+            );
+            $a = $form->isValid($formData);
+            if ($a) {
+                $studentModel = new Admin_Model_Student();
+                $results = $studentModel->search($data);
+                $this->view->searchResults = $results;
+            }
+            if (array_key_exists('student', $formData)) {
+                $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully done attendance"));
+            }
+        }
+    }
+
 }
 ?>
 
