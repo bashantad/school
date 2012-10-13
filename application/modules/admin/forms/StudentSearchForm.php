@@ -8,7 +8,7 @@ class Admin_Form_StudentSearchForm extends Zend_Form {
         $gradeOptions = $config->grade->toArray();
         $sectionOptions = $config->section->toArray();
         $yearOption = array();
-        for ($i = 2000; $i < 2020; $i++) {
+        for ($i = 2010; $i < 2020; $i++) {
             $yearOption[$i] = $i;
         }
         //grade

@@ -2,7 +2,7 @@
 <?php
 $form = $this->form->getElements();
 ?>
-<div id="">
+<div id="exam-result-all">
     <div id="divwrapper">
         <div id="divheader"></div>
         <div id="divLine">&nbsp; </div>
@@ -32,17 +32,10 @@ $form = $this->form->getElements();
                 <label>Exam Type</label>
                 <?php echo $form["examtype_id"] ?>
             </div>
-            <div class="form-item-wrapper">
-                <label>Roll No</label>
+            <div class="student-info-wrapper">
+                <label>Student Info</label><br />
                 <?php echo $form['roll_no']; ?>
-            </div>
-            <div class="form-item-wrapper">
-
-                <label>Student Name</label>
                 <?php echo $form["full_name"] ?>
-            </div>
-            <div class="form-item-wrapper">
-
             </div>
             <div class="form-item-wrapper" id="submit-wrapper">
                 <br />
@@ -83,7 +76,7 @@ $form = $this->form->getElements();
                         ?>
                         <td> <?php echo $val['marks']; ?></td>
                     <?php } ?>
-                    <td><?php echo number_format($sum / sizeof($arr), 2) . "%"; ?></td>
+                    <td><?php echo number_format($sum / sizeof($subject), 2) . "%"; ?></td>
                 </tr>
                 <?php
             endforeach;

@@ -98,7 +98,13 @@ input[type="text"]:active,input[type="select"]:active{
     width:250px;
 }
 .form-item-wrapper{
-    width:210px;
+    width:140px;
+    padding:10px;
+    float:left;
+}
+.student-info-wrapper{
+    width:180px;
+    padding:10px;
     float:left;
 }
 #filter_sn{
@@ -181,7 +187,7 @@ input[type="text"]:active,input[type="select"]:active{
     text-align:center;
     float:left;
 }
-.search-item-wrapper label{
+.search-item-wrapper label,.student-info-wrapper label{
     padding:0px 15px;
     float:left;
 }

@@ -40,14 +40,14 @@ class Admin_Form_ResultSearchForm extends Zend_Form {
         $examType = new Zend_Form_Element_Select("examtype_id");
         $examType->setLabel("Exam Type")
                 ->setRequired(true)
-                ->setAttribs(array('class' => 'feilds-select', 'id' => 'marital'))
+                ->setAttribs(array('class' => 'form-select', 'id' => 'marital'))
                 ->addMultiOptions($examTypeOptions);
         $studentModel = new Admin_Model_Student();
         $studentNameOptions = $studentModel->searchAllNames();
         //student name
         $studentName = new Zend_Form_Element_Select("full_name");
         $studentName->setLabel("Students Name")
-                ->setAttribs(array('class' => 'feilds-select', 'id' => 'studentsearch'))
+                ->setAttribs(array('class' => 'form-select', 'id' => 'studentsearch'))
                 ->addMultiOptions($studentNameOptions);
 
 
@@ -69,21 +69,13 @@ class Admin_Form_ResultSearchForm extends Zend_Form {
             array(array('data' => 'HtmlTag'), array('tag' => 'div', 'class' => 'form-item')),
             array('Label', array('tag' => 'div')),
         ));
+        $rollNo->setDecorators(array("viewHelper", "Errors"));
+        $studentName->setDecorators(array("viewHelper", "Errors"));
         $grade->removeDecorator("label");
-        $rollNo->removeDecorator("label");
         $examType->removeDecorator("label");
-        $studentName->removeDecorator("label");
         $year->removeDecorator("label");
         $section->removeDecorator("label");
         $search->removeDecorator("label");
     }
 
 }
-?>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#DateOFBirth").datepicker({
-            dateFormat: 'yy-mm-dd'
-        });
-    });
-</script>
