@@ -2,18 +2,17 @@
 
 class Admin_Form_ExamtypeForm extends Zend_Form {
 
-    protected $_params;
+    protected $_param;
 
-    public function __construct($params = null) {
-        $this->_params = $params;
-        parent::__construct($params);
+    public function __construct($param = null) {
+        $this->_param = $param;
+        parent::__construct($param);
     }
 
     public function init() {
 
         /* fetching grade options from class.ini file */
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "class.ini", "production");
-        $gradeOptions = $config->grade->toArray();
 
         $examtypeID = new Zend_Form_Element_Hidden("examtype_id");
 
@@ -29,15 +28,17 @@ class Admin_Form_ExamtypeForm extends Zend_Form {
                 ->addValidator('float', true, array('locale' => 'en_US'))
                 ->addValidator('greaterThan', true, array('min' => 0));
 
-        if ($this->_params) {
-            $grade = new Zend_Form_Element_Hidden("grade");
-        } else {
+        if (!$this->_param) {
+            $gradeOptions = array("all" => "All") + $config->grade->toArray();
             $grade = new Zend_Form_Element_MultiCheckbox("grade");
-            $grade->setLabel("Grade")
-                    ->setAttribs(array('class' => 'add-form-select'))
-                    ->addMultiOptions($gradeOptions)
-                    ->setRequired(true);
+        } else {
+            $gradeOptions = $config->grade->toArray();
+            $grade = new Zend_Form_Element_Select("grade");
         }
+        $grade->setLabel("Grade")
+                ->addMultiOptions($gradeOptions)
+                ->setRequired(true)
+                ->setAttribs(array('class' => 'add-form-checkbox'));
 
         $pass_marks = new Zend_Form_Element_Text("pass_marks");
         $pass_marks->setLabel("Pass Marks")

@@ -70,6 +70,14 @@ class Admin_Model_Schoolfee {
         }
     }
 
+    public function getAllByGrades($grade) {
+        $db = $this->getDbTable()->getDefaultAdapter();
+        $select = $this->getDbTable()->select();
+        $select->where("grade='$grade'");
+        $result = $db->fetchAll($select);
+        return $result;
+    }
+
 }
 
 ?>

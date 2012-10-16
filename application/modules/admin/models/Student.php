@@ -77,6 +77,9 @@ class Admin_Model_Student {
         $where = "s.del='N' ";
         if (is_array($data)) {
             foreach ($data as $key => $val) {
+                if($val=="All" && $key=="section"){
+                    continue;
+                }
                 if ($val) {
                     $where .=" AND s.$key='$val'";
                 }

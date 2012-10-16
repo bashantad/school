@@ -28,8 +28,19 @@ class Admin_Model_Examtype {
     }
 
     public function add($formData) {
-        $lastId = $this->getDbTable()->insert($formData);
-        if (!$lastId) {
+        $db = $this->getDbTable()->getDefaultAdapter();
+        $db->beginTransaction();
+        $grade = $formData['grade'];
+        array_shift($grade);
+        unset($formData['grade']);
+        foreach ($grade as $class) {
+            $formData['grade'] = $class;
+            $lastId = $this->getDbTable()->insert($formData);
+        }
+        if ($lastId) {
+            $db->commit();
+        } else {
+            $db->rollback();
             throw new Exception("Couldn't insert data into database");
         }
         return $lastId;
@@ -61,7 +72,8 @@ class Admin_Model_Examtype {
         $result = $this->getDbTable()->fetchAll("del='N'");
         return $result->toArray();
     }
-     public function getexamType() {
+
+    public function getexamType() {
         $result = $this->getDbTable()->fetchAll("del='N'");
         $options = array('' => '--Select--');
         foreach ($result as $result) {

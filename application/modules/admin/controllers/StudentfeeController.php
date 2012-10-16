@@ -2,7 +2,7 @@
 
 class Admin_StudentfeeController extends Zend_Controller_Action {
 
-   public function init() {
+    public function init() {
         /* Initialize action controller here */
         if (!Zend_Auth::getInstance()->hasIdentity()) {
             $this->_helper->redirector('index', 'login');
@@ -57,7 +57,7 @@ class Admin_StudentfeeController extends Zend_Controller_Action {
                 }
             }
         } catch (Exception $e) {
-             $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
+            $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
         }
     }
 
@@ -76,6 +76,7 @@ class Admin_StudentfeeController extends Zend_Controller_Action {
             }
         }
     }
+
     public function listAction() {
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "grid.ini", 'production');
         $grid = Bvb_Grid::factory('Table', $config);
@@ -120,6 +121,56 @@ class Admin_StudentfeeController extends Zend_Controller_Action {
             $menus[] = $data;
         endforeach;
         return $menus;
+    }
+
+    public function assignAction() {
+        $form = new Admin_Form_StudentSearchForm(true);
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            $data = array(
+                'year' => $formData['year'],
+                'grade' => $formData['grade'],
+                'section' => $formData['section']
+            );
+            $a = $form->isValid($formData);
+            if ($a) {
+                $studentModel = new Admin_Model_Student();
+                $results = $studentModel->search($data);
+                $addForm = new Admin_Form_AssignfeeForm(sizeof($results));
+                $feetypeModel = new Admin_Model_Schoolfee();
+                $this->view->feetypes = $feetypeModel->getAllByGrades($formData['grade']);
+                $addForm->year->setValue($formData['year']);
+                $this->view->addForm = $addForm;
+                $this->view->searchResults = $results;
+            }
+            if ("Add" == $formData['Search']) {
+                if ($addForm->isValid($formData)) {
+                    unset($formData['section']);
+                    try {
+                        foreach ($formData as $data) {
+                            $resultModel = new Admin_Model_Result();
+                            if (is_array($data)) {
+                                foreach ($data as $row) {
+                                    $arr = array();
+                                    unset($row['result_id']);
+                                    unset($formData['Search']);
+                                    $arr = $row;
+                                    $arr['grade'] = $formData['grade'];
+                                    $arr['subject_id'] = $formData['subject_id'];
+                                    $arr['examtype_id'] = $formData['examtype_id'];
+                                    $arr['year'] = $formData['year'];
+                                    $resultModel->add($arr);
+                                }
+                            }
+                        }
+                    } catch (Exception $e) {
+                        $this->_helper->FlashMessenger->addMessage(array("error" => "It seems like you have already added result of this subject for this type of exam"));
+                        //var_dump($e->getMessage());
+                    }
+                }
+            }
+        }
     }
 
 }

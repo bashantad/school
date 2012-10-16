@@ -4,7 +4,7 @@ class Admin_Form_StudentfeeForm extends Zend_Form {
 
     public function init() {
 
-        $feeid = new Zend_Form_Element_Hidden("fee_id");
+        $feeId = new Zend_Form_Element_Hidden("fee_id");
 
         $feetitle = new Zend_Form_Element_Text("fee_title");
         $feetitle->setLabel("Fee Title")
@@ -34,7 +34,7 @@ class Admin_Form_StudentfeeForm extends Zend_Form {
         $submit->setLabel("Submit");
 
         $this->addElements(array(
-            $feeid,
+            $feeId,
             $student,
             $feetitle,
             $amount,

@@ -22,14 +22,9 @@ class Admin_ExamtypeController extends Zend_Controller_Action {
             if ($form->isValid($formData)) {
                 unset($formData['submit']);
                 unset($formData["examtype_id"]);
-                $grades = $formData['grade'];
-                unset($formData['grade']);
                 try {
                     $examtypeModel = new Admin_Model_Examtype();
-                    foreach ($grades as $grade) {
-                        $formData['grade'] = $grade;
-                        $examTypeId = $examtypeModel->add($formData);
-                    }
+                    $examTypeId = $examtypeModel->add($formData);
                     if ($examTypeId) {
                         $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully added Exam type "));
                         $this->_helper->redirector('list');
@@ -57,7 +52,6 @@ class Admin_ExamtypeController extends Zend_Controller_Action {
                     $id = $formData['examtype_id'];
                     unset($formData['examtype_id']);
                     unset($formData['submit']);
-
                     $examtypeModel->update($formData, $id);
                     $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully updated Exam type."));
                     $this->_helper->redirector('list');
