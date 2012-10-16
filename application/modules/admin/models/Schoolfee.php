@@ -70,10 +70,10 @@ class Admin_Model_Schoolfee {
         }
     }
 
-    public function getAllByGrades($grade) {
+    public function getAllByGrades($grade,$year) {
         $db = $this->getDbTable()->getDefaultAdapter();
         $select = $this->getDbTable()->select();
-        $select->where("grade='$grade'");
+        $select->where("grade='$grade' AND year='$year'")->order("isMonthly DESC");
         $result = $db->fetchAll($select);
         return $result;
     }
