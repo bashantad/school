@@ -16,6 +16,14 @@
                 <th>
                     <a href="#" id="checkbox-all" name="all-checkbox">Check All</a>
                 </th>
+                <th>
+                    <select name="date"/>
+                    <option value="<?php echo $todaydate = date("Y-m-d") ?>">Today</option>
+                    <option value="<?php echo $date = date('Y-m-d', strtotime(' -1 day'));?>">Yesterday</option>
+                    <option value="<?php echo $date = date('Y-m-d', strtotime(' -2 day'));?>">Two Days Ago</option>
+                    <option value="<?php echo $date = date('Y-m-d', strtotime(' -3 day'));?>">Three Days Ago</option>
+                        </select>
+                </th>
             </tr>
             <?php foreach ($this->results as $result) { ?>
                 <tr>
@@ -26,9 +34,9 @@
                 </tr>
             <?php } ?>
         </table>
-        <input type="hidden" name="year" value="<?php echo $_POST['year']; ?>" />
-        <input type="hidden" name="grade" value="<?php echo $_POST['grade']; ?>" />
-        <input type="hidden" name="section" value="<?php echo $_POST['section']; ?>" />
+    <!--        <input type="hidden" name="year" value="<?php //echo $_POST['year'];  ?>" />
+        <input type="hidden" name="grade" value="<?php //echo $_POST['grade'];  ?>" />
+        <input type="hidden" name="section" value="<?php //echo $_POST['section'];  ?>" />-->
         <input type="submit" name="form-submit" value="Save" />
     <?php } ?>
 </form>
