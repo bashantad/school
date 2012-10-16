@@ -131,28 +131,19 @@ class Admin_StaffController extends Zend_Controller_Action {
         $this->view->results = $staffModel->listAll();
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
-            $data = array(
-                'staff_id' => $formData['student']
-            );
-            try {
-                $staffAttendanceModel = new Admin_Model_StaffAttendance();
-                if (is_array($data)) {
-                    foreach ($data as $row) {
-                       // $arr = array();
-                        $arr['staff_id'] = $formData['student'];
-                        $arr['date'] = $formData['date'];
-                        echo"<pre>";
-                        print_r($arr);
-                        exit;
-
-                        $staffAttendanceModel->add($arr);
-                    }
-               }
-
-                $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Attendance added"));
-                $this->_helper->redirector('index');
-            } catch (Exception $e) {
-                $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
+            if (array_key_exists('student', $formData)) {
+                try {
+                    unset($formData['form-submit']);
+                    $staffAttendanceModel = new Admin_Model_StaffAttendance();
+                    $staffAttendanceModel->add($formData);
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Attendance added"));
+                    $this->_helper->redirector('index');
+                } catch (Exception $e) {
+                    //var_dump($e->getMessage());
+                    $this->_helper->FlashMessenger->addMessage(array("error" => "It seems like attendance of this day of these teachers is already done."));
+                }
+            } else {
+                $this->_helper->FlashMessenger->addMessage(array("error" => "Atleast One student should be present."));
             }
         }
     }

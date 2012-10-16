@@ -41,8 +41,17 @@
                     <td><?php echo $result['roll_no']; ?></td>
                     <td><?php echo $result['full_name']; ?></td>  
                     <td><input class="check-student" type="checkbox" name="student[<?php echo $result['student_id'] ?>]" /></td>
+
                 </tr>
             <?php } ?>
+            <th>
+                <select name="date"/>
+            <option value="<?php echo $todaydate = date("Y-m-d") ?>">Today</option>
+            <option value="<?php echo $date = date('Y-m-d', strtotime(' -1 day')); ?>">Yesterday</option>
+            <option value="<?php echo $date = date('Y-m-d', strtotime(' -2 day')); ?>">Two Days Ago</option>
+            <option value="<?php echo $date = date('Y-m-d', strtotime(' -3 day')); ?>">Three Days Ago</option>
+            </select>
+            </th>
         </table>
         <input type="hidden" name="year" value="<?php echo $_POST['year']; ?>" />
         <input type="hidden" name="grade" value="<?php echo $_POST['grade']; ?>" />

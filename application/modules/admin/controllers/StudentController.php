@@ -194,7 +194,21 @@ class Admin_StudentController extends Zend_Controller_Action {
                 $this->view->searchResults = $results;
             }
             if (array_key_exists('student', $formData)) {
-                $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully done attendance"));
+                try {
+                    unset($formData['form-submit']);
+                    unset($formData['year']);
+                    unset($formData['grade']);
+                    unset($formData['section']);
+                    $studentAttendanceModel = new Admin_Model_StudentAttendance();
+                    $studentAttendanceModel->add($formData);
+                    $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully done attendance"));
+                     $this->_helper->redirector('index');
+                } catch (Exception $e) {
+                   // var_dump($e->getMessage());
+                    $this->_helper->FlashMessenger->addMessage(array("error" => "It seems like attendance of this day of these students is already done."));
+                }
+            } else {
+                $this->_helper->FlashMessenger->addMessage(array("error" => "Atleast One student should be present."));
             }
         }
     }

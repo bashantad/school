@@ -28,9 +28,21 @@ class Admin_Model_StaffAttendance {
     }
 
     public function add($formData) {
-        $formData['entered_date'] = date("Y-m-d");
-        $lastId = $this->getDbTable()->insert($formData);
-        if (!$lastId) {
+        $data = $formData['student'];
+        $arr = array();
+        $db = $this->getDbTable()->getDefaultAdapter();
+        $db->beginTransaction();
+        foreach ($data as $key => $row) {
+            $arr['staff_id'] = $key;
+            $arr['entered_by'] = Zend_Auth::getInstance()->getIdentity()->staff_id;
+            $arr['date'] = $formData['date'];
+            $arr['entered_date'] = date("Y-m-d");
+            $lastId = $this->getDbTable()->insert($arr);
+        }
+        if ($lastId) {
+            $db->commit();
+        } else {
+            $db->rollback();
             throw new Exception("Couldn't insert data into database");
         }
         return $lastId;
