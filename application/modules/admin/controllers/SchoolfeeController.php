@@ -76,5 +76,53 @@ class Admin_SchoolfeeController extends Zend_Controller_Action {
         }
     }
 
+    public function listAction() {
+        $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "grid.ini", 'production');
+        $grid = Bvb_Grid::factory('Table', $config);
+        $data = $this->_listdata();
+        $source = new Bvb_Grid_Source_Array($data);
+        $baseUrl = Zend_Controller_Front::getInstance()->getBaseUrl();
+        $grid->setSource($source);
+        $grid->setImagesUrl("$baseUrl/grid/");
+        $editColumn = new Bvb_Grid_Extra_Column();
+        $editColumn->setPosition('right')->setName('Edit')->setDecorator("<a href=\"$baseUrl/admin/schoolfee/edit/id/{{fee_type_id}}\">Edit</a><input class=\"address-id\" name=\"address_id[]\" type=\"hidden\" value=\"{{fee_type_id}}\"/>");
+        $deleteColumn = new Bvb_Grid_Extra_Column();
+        $deleteColumn->setPosition('right')->setName('Delete')->setDecorator("<a class=\"delete-data\" href=\"$baseUrl/admin/schoolfee/delete/id/{{fee_type_id}}\">Delete</a>");
+        $grid->addExtraColumns($editColumn, $deleteColumn);
+        $grid->updateColumn('fee_type_id', array('hidden' => true));
+        $grid->updateColumn('del', array('hidden' => true));
+        $grid->setRecordsPerPage(20);
+        $grid->setPaginationInterval(array(
+            5 => 5,
+            10 => 10,
+            20 => 20,
+            30 => 30,
+            40 => 40,
+            50 => 50,
+            100 => 100
+        ));
+        $grid->setExport(array('print', 'word', 'csv', 'excel', 'pdf'));
+        $this->view->grid = $grid->deploy();
+    }
+
+    public function _listdata() {
+        $menus = array();
+        $menuModel = new Admin_Model_Schoolfee();
+        $allMenus = $menuModel->getAll();
+        $i = 0;
+        foreach ($allMenus as $menu):
+            $i++;
+            $data = array();
+            $data['sn'] = $i;
+            $data['fee_type_id'] = $menu['fee_type_id'];
+            $data['name'] = $menu['name'];
+            $data['grade'] = $menu['grade'];
+            $data['amount'] = $menu['amount'];
+            $data['monthly?'] = ($menu['isMonthly'] == 'Y') ? 'Yes' : 'No';
+            $menus[] = $data;
+        endforeach;
+        return $menus;
+    }
+
 }
 

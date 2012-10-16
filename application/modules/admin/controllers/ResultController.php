@@ -25,8 +25,11 @@ class Admin_ResultController extends Zend_Controller_Action {
                 $results = $studentModel->search($data);
                 $subjectModel = new Admin_Model_Subject();
                 $subOptions = $subjectModel->getSubjects($formData['grade']);
+                $examTypeModel = new Admin_Model_Examtype();
+                $examTypeOption = $examTypeModel->getSelectedExamType($formData['grade']);
                 $addForm = new Admin_Form_ResultaddForm(sizeof($results));
                 $addForm->subject_id->addMultiOptions($subOptions);
+                $addForm->examtype_id->addMultiOptions($examTypeOption);
                 $addForm->grade->setValue($formData['grade']);
                 $addForm->year->setValue($formData['year']);
                 $this->view->addForm = $addForm;

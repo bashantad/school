@@ -44,8 +44,6 @@ class Admin_Form_ResultaddForm extends Zend_Form {
 
     public function init() {
         $examtypeModel = new Admin_Model_Examtype();
-        $examTypeOptions = $examtypeModel->getexamType();
-
         for ($index = 0; $index < $this->_param; $index++) {
             $subForm = $this->createElements($index);
             $this->addSubForms(array(
@@ -60,7 +58,6 @@ class Admin_Form_ResultaddForm extends Zend_Form {
         $examType = new Zend_Form_Element_Select("examtype_id");
         $examType->setLabel("Exam Type")
                 ->setAttribs(array("class" => "form-long-select"))
-                ->addMultiOptions($examTypeOptions)
                 ->setRequired(true);
 
         $submit = new Zend_Form_Element_Submit("Search");

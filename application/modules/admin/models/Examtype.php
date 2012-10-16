@@ -82,6 +82,19 @@ class Admin_Model_Examtype {
         return $options;
     }
 
+    public function getSelectedExamType($grade) {
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $select = $db->select()
+                ->from(array("s" => "school_examtype"), array("s.name", "s.examtype_id"))
+                ->where("s.grade ='$grade' AND s.del='N'");
+        $results = $db->fetchAll($select);
+        $options = array();
+        foreach ($results as $result) {
+            $options[$result['examtype_id']] = $result['name'];
+        }
+        return $options;
+    }
+
 }
 
 ?>
