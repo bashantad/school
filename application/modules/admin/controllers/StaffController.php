@@ -131,7 +131,6 @@ class Admin_StaffController extends Zend_Controller_Action {
         $this->view->results = $staffModel->listAll();
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
-<<<<<<< HEAD
             if (array_key_exists('student', $formData)) {
                 try {
                     unset($formData['form-submit']);
@@ -145,29 +144,6 @@ class Admin_StaffController extends Zend_Controller_Action {
                 }
             } else {
                 $this->_helper->FlashMessenger->addMessage(array("error" => "Atleast One student should be present."));
-=======
-            $data = array(
-                'staff_id' => $formData['student']
-            );
-            try {
-                $staffAttendanceModel = new Admin_Model_StaffAttendance();
-                if (is_array($data)) {
-                    foreach ($data as $row) {
-                        $arr['staff_id'] = $formData['student'];
-                        $arr['date'] = $formData['date'];
-                        echo"<pre>";
-                        print_r($arr);
-                        exit;
-
-                        $staffAttendanceModel->add($arr);
-                    }
-                }
-
-                $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Attendance added."));
-                $this->_helper->redirector('index');
-            } catch (Exception $e) {
-                $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
->>>>>>> 91b5e3a5304f3410d5fe189e9f30379eb8fab62e
             }
         }
     }
