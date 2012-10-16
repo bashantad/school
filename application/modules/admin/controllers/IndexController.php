@@ -2,7 +2,10 @@
 
 class Admin_IndexController extends Zend_Controller_Action {
 
-   public function init() {
+    public function init() {
+        $ajaxContext = $this->_helper->getHelper('AjaxContext');
+        $ajaxContext->addActionContext('search-content', 'json')
+                ->initContext();
         /* Initialize action controller here */
         if (!Zend_Auth::getInstance()->hasIdentity()) {
             $this->_helper->redirector('index', 'login');
@@ -13,12 +16,11 @@ class Admin_IndexController extends Zend_Controller_Action {
         // action body
     }
 
-    public function listAction()
-    {
+    public function listAction() {
         $config = new Zend_Config_Ini(BASE_PATH . DIRECTORY_SEPARATOR . "configs" . DIRECTORY_SEPARATOR . "grid.ini", 'production');
         $grid = Bvb_Grid::factory('Table', $config);
         $data = $this->_listdata();
-       // echo "<pre>";
+        // echo "<pre>";
         //print_r($data);exit;
         $source = new Bvb_Grid_Source_Array($data);
         $grid->setSource($source);
@@ -63,15 +65,27 @@ class Admin_IndexController extends Zend_Controller_Action {
         endforeach;
         return $menus;
     }
-    public function themeAction()
-    {
+
+    public function themeAction() {
         $themeModel = new Admin_Model_Theme();
         $this->view->themeOptions = $themeModel->listinKeyValue();
-        if($this->getRequest()->isPost()){
+        if ($this->getRequest()->isPost()) {
             $themeId = $this->getRequest()->getPost("theme");
             $themeModel->setActive($themeId);
             $this->view->theme = $themeId;
         }
+    }
+
+    public function searchContentAction() {
+        $content = array(
+            'keyword' => $this->_getParam("content"),
+            'menu_type' => $this->_getParam("menu_type")
+        );
+        $menuModel = new Admin_Model_Menu();
+        $results = $menuModel->searchContents($content);
+        $this->view->results = $results;
+        $this->view->size = sizeof($results);
+        $this->view->html = $this->view->render("index/search-content.phtml");
     }
 
 }

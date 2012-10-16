@@ -85,7 +85,8 @@ class Admin_Model_Student {
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select()
                 ->from(array("s" => "school_students"), array("s.*"))
-                ->where($where);
+                ->where($where)
+                ->order("s.roll_no");
         $results = $db->fetchAll($select);
         return $results;
     }
@@ -101,7 +102,8 @@ class Admin_Model_Student {
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select()
                 ->from(array("s" => "school_students"), array("s.*"))
-                ->where($where);
+                ->where($where)
+                ->order("s.roll_no");
         $results = $db->fetchAll($select);
         $options = array('' => '--Select--');
         foreach ($results as $result) {
@@ -114,13 +116,20 @@ class Admin_Model_Student {
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db->select()
                 ->from(array("s" => "school_students"), array("s.*"))
-                ->where("s.del='N'");
+                ->where("s.del='N'")
+                ->order("s.roll_no");
         $results = $db->fetchAll($select);
         $options = array('' => '--Select--');
         foreach ($results as $result) {
             $options[$result['student_id']] = $result['full_name'];
         }
         return $options;
+    }
+
+    public function upgrade($students, $data) {
+        foreach ($students as $key => $val) {
+            $this->getDbTable()->update($data, "student_id=" . $key);
+        }
     }
 
 }

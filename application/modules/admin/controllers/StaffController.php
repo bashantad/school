@@ -126,6 +126,37 @@ class Admin_StaffController extends Zend_Controller_Action {
         return $menus;
     }
 
+    public function attendanceAction() {
+        $staffModel = new Admin_Model_Staff();
+        $this->view->results = $staffModel->listAll();
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            $data = array(
+                'staff_id' => $formData['student']
+            );
+            try {
+                $staffAttendanceModel = new Admin_Model_StaffAttendance();
+                if (is_array($data)) {
+                    foreach ($data as $row) {
+                       // $arr = array();
+                        $arr['staff_id'] = $formData['student'];
+                        $arr['date'] = $formData['date'];
+                        echo"<pre>";
+                        print_r($arr);
+                        exit;
+
+                        $staffAttendanceModel->add($arr);
+                    }
+               }
+
+                $this->_helper->FlashMessenger->addMessage(array("success" => "Successfully Attendance added"));
+                $this->_helper->redirector('index');
+            } catch (Exception $e) {
+                $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
+            }
+        }
+    }
+
 }
 ?>
 

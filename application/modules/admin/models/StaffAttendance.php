@@ -1,6 +1,6 @@
 <?php
 
-class Admin_Model_Staff {
+class Admin_Model_StaffAttendance {
 
     protected $_dbTable;
 
@@ -17,7 +17,7 @@ class Admin_Model_Staff {
 
     public function getDbTable() {
         if (null === $this->_dbTable) {
-            $this->setDbTable('Admin_Model_DbTable_Staff');
+            $this->setDbTable('Admin_Model_DbTable_StaffAttendance');
         }
         return $this->_dbTable;
     }

@@ -3,12 +3,11 @@
         <title>
             School Management System
         </title>
+        <script type="text/javascript" src="<?php echo $this->baseUrl() . '/common/js/jquery-1.7.2.min.js'; ?>"></script>
         <?php
         $this->headLink()->appendStylesheet($this->baseUrl() . "/school/admin/css/style.css");
-        $this->headScript()->appendFile($this->baseUrl() . "/common/js/jquery-1.7.2.min.js");
         $this->headScript()->appendFile($this->baseUrl() . "/common/js/jquery-ui-1.8.21.custom.min.js");
         $this->headLink()->appendStylesheet($this->baseUrl() . "/common/css/jquery-ui-1.8.21.custom.css");
-        $this->headLink()->appendStylesheet($this->baseUrl() . 'facebook.php');
         echo $this->headLink();
         echo $this->headScript();
         ?>
@@ -27,18 +26,13 @@
                     <li><a href="<?php echo $this->baseUrl() . '/admin/result/'; ?>">Add Result</a></li>
                     <li><a href="<?php echo $this->baseUrl() . '/admin/staff/list'; ?>">Staff</a></li>
                     <li><a href="<?php echo $this->baseUrl() . '/admin/subject/list'; ?>">Subjects</a></li>
-                    <li><a href="<?php echo $this->baseUrl() . '/admin/studentfee'; ?>">Student Fee</a></li>
                     <li><a href="<?php echo $this->baseUrl() . '/admin/news/list'; ?>">News feed</a></li>
-                    <li><a href="<?php echo $this->baseUrl() . '/admin/gallery/list'; ?>">Gallery</a></li>
                     <?php if (Zend_Auth::getInstance()->hasIdentity()) { ?>
                         <li><a href="<?php echo $this->baseUrl() . '/admin/login/logout'; ?>">Logout</a></li>
                     <?php } ?>
-                    <li>
-                        <?php
-                        ?>
-                    </li>    
                 </ul>
-            </div>      
+            </div>   
+
         </div>
         <div id="container">
             <div id="flash-messages">

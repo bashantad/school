@@ -87,7 +87,14 @@ class Admin_MenuController extends Zend_Controller_Action {
     }
 
     public function contentSearchAction() {
-        
+
+        $content = array(
+            'keyword' => $this->_getParam("searchtext"),
+            'menu_type' => $this->_getParam("menu_type")
+        );
+        $menuModel = new Admin_Model_Menu();
+        $results = $menuModel->searchContents($content);
+        $this->view->results = $results;
     }
 
     public function contentAction() {

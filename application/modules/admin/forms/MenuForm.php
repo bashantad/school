@@ -22,8 +22,7 @@ class Admin_Form_MenuForm extends Zend_Form {
         $parentMenuID = new Zend_Form_Element_Select("parent_menu_id");
         $parentMenuID->setLabel("Parent Menu")
                 ->addMultiOptions($option)
-                ->setAttribs(array('class' => 'add-form-text', 'id' => 'menu_type'))
-                ->setRequired(true);
+                ->setAttribs(array('class' => 'add-form-text', 'id' => 'menu_type'));
 
         $enteredDate = new Zend_Form_Element_Text("entered_date");
         $enteredDate->setLabel("Entered Date")
