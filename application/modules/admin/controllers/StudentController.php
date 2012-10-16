@@ -133,7 +133,11 @@ class Admin_StudentController extends Zend_Controller_Action {
         $id = $this->_getParam('id', 0);
         $studentModel = new Admin_Model_Student();
         $data = $studentModel->getDetailById($id);
+        $feeModel = new Admin_Model_Schoolfee();
+        $this->view->feetypes = $feeModel->getAllByGrades($data['grade'], $data['year']);
         $this->view->result = $data;
+        $config = new Zend_Config_Ini(BASE_PATH.DIRECTORY_SEPARATOR.'configs'.DIRECTORY_SEPARATOR.'month.ini','nepali');
+        $this->view->monthOptions = $config->month->toArray();
     }
 
     public function studentFilterAction() {

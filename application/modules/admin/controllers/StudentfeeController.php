@@ -123,55 +123,5 @@ class Admin_StudentfeeController extends Zend_Controller_Action {
         return $menus;
     }
 
-    public function assignAction() {
-        $form = new Admin_Form_StudentSearchForm(true);
-        $this->view->form = $form;
-        if ($this->getRequest()->isPost()) {
-            $formData = $this->getRequest()->getPost();
-            $data = array(
-                'year' => $formData['year'],
-                'grade' => $formData['grade'],
-                'section' => $formData['section']
-            );
-            $a = $form->isValid($formData);
-            if ($a) {
-                $studentModel = new Admin_Model_Student();
-                $results = $studentModel->search($data);
-                $addForm = new Admin_Form_AssignfeeForm(sizeof($results));
-                $feetypeModel = new Admin_Model_Schoolfee();
-                $this->view->feetypes = $feetypeModel->getAllByGrades($formData['grade']);
-                $addForm->year->setValue($formData['year']);
-                $this->view->addForm = $addForm;
-                $this->view->searchResults = $results;
-            }
-            if ("Add" == $formData['Search']) {
-                if ($addForm->isValid($formData)) {
-                    unset($formData['section']);
-                    try {
-                        foreach ($formData as $data) {
-                            $resultModel = new Admin_Model_Result();
-                            if (is_array($data)) {
-                                foreach ($data as $row) {
-                                    $arr = array();
-                                    unset($row['result_id']);
-                                    unset($formData['Search']);
-                                    $arr = $row;
-                                    $arr['grade'] = $formData['grade'];
-                                    $arr['subject_id'] = $formData['subject_id'];
-                                    $arr['examtype_id'] = $formData['examtype_id'];
-                                    $arr['year'] = $formData['year'];
-                                    $resultModel->add($arr);
-                                }
-                            }
-                        }
-                    } catch (Exception $e) {
-                        $this->_helper->FlashMessenger->addMessage(array("error" => "It seems like you have already added result of this subject for this type of exam"));
-                        //var_dump($e->getMessage());
-                    }
-                }
-            }
-        }
-    }
-
 }
 
