@@ -2,7 +2,7 @@
 
 class Admin_SchoolfeeController extends Zend_Controller_Action {
 
-   public function init() {
+    public function init() {
         /* Initialize action controller here */
         if (!Zend_Auth::getInstance()->hasIdentity()) {
             $this->_helper->redirector('index', 'login');
@@ -25,7 +25,7 @@ class Admin_SchoolfeeController extends Zend_Controller_Action {
                 try {
                     $schoolfeeModel = new Admin_Model_Schoolfee();
                     $schoolfeeModel->add($formData);
-                    $this->_helper->FlashMessenger->addMessage(array("edit" => "Successfully Fee Added"));
+                    $this->_helper->FlashMessenger->addMessage(array("edit" => "Successfully added fee"));
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
                     $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
@@ -36,7 +36,7 @@ class Admin_SchoolfeeController extends Zend_Controller_Action {
 
     public function editAction() {
 
-        $form = new Admin_Form_SchoolfeeForm();
+        $form = new Admin_Form_SchoolfeeForm(true);
         $form->submit->setLabel("Save");
         $schoolfeeModel = new Admin_Model_Schoolfee();
         $id = $this->_getParam('id', 0);
@@ -51,12 +51,12 @@ class Admin_SchoolfeeController extends Zend_Controller_Action {
                     unset($formData['fee_type_id']);
                     unset($formData['submit']);
                     $schoolfeeModel->update($formData, $id);
-                    $this->_helper->FlashMessenger->addMessage(array("edit" => "Successfully Fee Edited"));
+                    $this->_helper->FlashMessenger->addMessage(array("edit" => "Successfully edited fee"));
                     $this->_helper->redirector('index');
                 }
             }
         } catch (Exception $e) {
-             $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
+            $this->_helper->FlashMessenger->addMessage(array("error" => $e->getMessage()));
         }
     }
 

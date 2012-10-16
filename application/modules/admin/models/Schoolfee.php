@@ -31,9 +31,19 @@ class Admin_Model_Schoolfee {
     }
 
     public function add($formData) {
-        //var_dump($formData);exit;
-        $lastId = $this->getDbTable()->insert($formData);
-        if (!$lastId) {
+        $db = $this->getDbTable()->getDefaultAdapter();
+        $db->beginTransaction();
+        $grade = $formData['grade'];
+        array_shift($grade);
+        unset($formData['grade']);
+        foreach ($grade as $class) {
+            $formData['grade'] = $class;
+            $lastId = $this->getDbTable()->insert($formData);
+        }
+        if ($lastId) {
+            $db->commit();
+        } else {
+            $db->rollback();
             throw new Exception("Couldn't insert data into database");
         }
         return $lastId;
